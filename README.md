@@ -1,3 +1,3 @@
 # This is UIMA Improvement Framework
 
-![UIMA-logo-big.png](/files/2) {: .center-image }
+![U](/files/2 "UIMA")
