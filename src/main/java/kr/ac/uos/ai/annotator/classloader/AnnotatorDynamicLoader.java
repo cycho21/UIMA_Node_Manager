@@ -25,23 +25,10 @@ public class AnnotatorDynamicLoader {
     }
 
     @Test
-    public void loadClass() {
-        try {
-            Class cl = Class.forName("kr.ac.uos.ai.annotator.monitor.ResourceMonitor");
-            Object obj = cl.newInstance();
-        } catch (ClassNotFoundException e) {
-            System.out.println("Class not found!");
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Test
     public void loadClass2() {
         this.jarPath = "Test.jar";
-        String path = System.getProperty("user.dir") + "\\lib\\" + jarPath;
+        String tempPath = jarPath;
+        String path = System.getProperty("user.dir") + "\\lib\\" + tempPath;
         File file = new File(path);
         try {
             URL url = file.toURL();
