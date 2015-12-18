@@ -1,17 +1,10 @@
 package kr.ac.uos.ai.annotator.monitor;
 
-import org.apache.log4j.Logger;
 import org.hyperic.sigar.CpuInfo;
 import org.hyperic.sigar.Mem;
 import org.hyperic.sigar.Sigar;
 import org.hyperic.sigar.SigarException;
 import org.junit.Test;
-
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
 
 /**
  * @author Chan Yeon, Cho
@@ -26,6 +19,7 @@ public class ResourceMonitor {
     public static Sigar sigar;
 
     public ResourceMonitor() {
+        System.out.println("Resource Monitor loaded");
     }
 
     public void init() {

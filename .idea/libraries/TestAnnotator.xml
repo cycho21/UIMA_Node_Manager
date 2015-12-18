@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="TestAnnotator">
+    <CLASSES>
+      <root url="jar://C:/Library/TestAnnotator.jar!/" />
+      <root url="jar://C:/Library/TestL2K.jar!/" />
+      <root url="jar://C:/Library/TestTask.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

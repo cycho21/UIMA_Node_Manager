@@ -1,9 +1,11 @@
 package kr.ac.uos.ai.annotator.activemq;
 
+import kr.ac.uos.ai.annotator.taskarchiver.TaskUnpacker;
 import org.apache.activemq.ActiveMQConnection;
 import org.apache.activemq.ActiveMQConnectionFactory;
 
 import javax.jms.*;
+import java.util.HashMap;
 
 public class Receiver implements Runnable {
 
@@ -15,6 +17,7 @@ public class Receiver implements Runnable {
 	private MessageConsumer consumer;
 	private Message message;
 	private TextMessage tMsg;
+	private TaskUnpacker taskUnpacker;
 
 	public Receiver() {
 	}
@@ -42,11 +45,17 @@ public class Receiver implements Runnable {
 				consume();
 				BytesMessage tMsg = (BytesMessage) message;
 				byte[] bytes = new byte[(int) ((BytesMessage) message).getBodyLength()];
+//				HashMap task = (HashMap) message.getObjectProperty("objectPropertyTest");
+//				System.out.println("Receiver AUTHOR : " + task.get("AUTHOR"));
 				tMsg.readBytes(bytes);
-				System.out.println(bytes);
+
 				for (byte b : bytes) {
-					System.out.println((char) b);
+//					System.out.println((char) b);
 				}
+
+
+				makeFile(bytes);
+
 			}
 		} catch (Exception e) {
 			System.out.println("Receiver Run Error");
@@ -54,6 +63,7 @@ public class Receiver implements Runnable {
 	}
 
 	public void init() {
+		taskUnpacker = new TaskUnpacker();
 		factory = new ActiveMQConnectionFactory(ActiveMQConnection.DEFAULT_BROKER_URL);
 		try {
 			connection = factory.createConnection();
@@ -63,6 +73,11 @@ public class Receiver implements Runnable {
 		} catch (JMSException e) {
 			e.printStackTrace();
 		}
+	}
+
+
+	public void makeFile(byte[] bytes) {
+		taskUnpacker.makeFileFromByteArray(System.getProperty("user.dir") + "/lib/TestAnno4.jar", bytes);
 	}
 
 	public TextMessage gettMsg() {
