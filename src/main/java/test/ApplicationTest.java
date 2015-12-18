@@ -31,20 +31,21 @@ public class ApplicationTest {
     }
 
     public static void main(String[] args) {
-        String[] tempStringArray = args;
-
-        if (tempStringArray[0].equals("-")) {
-            caseStudyStart(tempStringArray);
-        }
+        System.out.println(1);
+//        String[] tempStringArray = args;
+//
+//        if (tempStringArray[0].equals("-")) {
+//            caseStudyStart(tempStringArray);
+//        }
     }
 
     private static void caseStudyStart(String[] temp) {
-        switch (temp[1]) {
-            case "o" :
-                break;
-            case "a" :
-                break;
-        }
+//        switch (temp[1]) {
+//            case "o" :
+//                break;
+//            case "a" :
+//                break;
+//        }
     }
 
 }

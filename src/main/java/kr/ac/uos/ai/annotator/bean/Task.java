@@ -18,7 +18,7 @@ public class Task {
     }
 
     private void init(String author, MsgType type, String time) {
-        MetaInfo metaInfo = new MetaInfo(author, type, time);
+        MetaInfo metaInfo = new MetaInfo(type, "type", time, "jobName", "a", "b");
         setMetaInfo(metaInfo);
     }
 
