@@ -12,7 +12,7 @@ import java.net.URLClassLoader;
 
 /**
  * @author Chan Yeon, Cho
- * @version 0.0.1 - SnapShot
+ * @version 0.0.1 - Snapshot
  *          on 2015-12-18 enemy
  * @link http://ai.uos.ac.kr:9000/lovebube/UIMA_Framework_Plugin
  */

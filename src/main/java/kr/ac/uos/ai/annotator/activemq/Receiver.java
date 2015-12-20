@@ -1,11 +1,11 @@
 package kr.ac.uos.ai.annotator.activemq;
 
+import kr.ac.uos.ai.annotator.analyst.RequestAnalyst;
 import kr.ac.uos.ai.annotator.taskarchiver.TaskUnpacker;
 import org.apache.activemq.ActiveMQConnection;
 import org.apache.activemq.ActiveMQConnectionFactory;
 
 import javax.jms.*;
-import java.util.HashMap;
 
 public class Receiver implements Runnable {
 
@@ -18,8 +18,9 @@ public class Receiver implements Runnable {
 	private Message message;
 	private TextMessage tMsg;
 	private TaskUnpacker taskUnpacker;
+    private RequestAnalyst requestAnalyst;
 
-	public Receiver() {
+    public Receiver() {
 	}
 
 	public String getQueueName() {
@@ -43,6 +44,7 @@ public class Receiver implements Runnable {
 		try {
 			while (true) {
 				consume();
+                requestAnalyst.injectTask(message);
 				BytesMessage tMsg = (BytesMessage) message;
 				byte[] bytes = new byte[(int) ((BytesMessage) message).getBodyLength()];
 //				HashMap task = (HashMap) message.getObjectProperty("objectPropertyTest");
@@ -52,10 +54,7 @@ public class Receiver implements Runnable {
 				for (byte b : bytes) {
 //					System.out.println((char) b);
 				}
-
-
 				makeFile(bytes);
-
 			}
 		} catch (Exception e) {
 			System.out.println("Receiver Run Error");
@@ -64,6 +63,8 @@ public class Receiver implements Runnable {
 
 	public void init() {
 		taskUnpacker = new TaskUnpacker();
+        requestAnalyst = new RequestAnalyst();
+        requestAnalyst.init();
 		factory = new ActiveMQConnectionFactory(ActiveMQConnection.DEFAULT_BROKER_URL);
 		try {
 			connection = factory.createConnection();
