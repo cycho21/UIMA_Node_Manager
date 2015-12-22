@@ -1,11 +1,11 @@
 package kr.ac.uos.ai.annotator.activemq;
 
+import kr.ac.uos.ai.annotator.analyst.RequestAnalyst;
 import kr.ac.uos.ai.annotator.taskarchiver.TaskUnpacker;
 import org.apache.activemq.ActiveMQConnection;
 import org.apache.activemq.ActiveMQConnectionFactory;
 
 import javax.jms.*;
-import java.util.HashMap;
 
 public class Receiver implements Runnable {
 
@@ -18,6 +18,9 @@ public class Receiver implements Runnable {
 	private Message message;
 	private TextMessage tMsg;
 	private TaskUnpacker taskUnpacker;
+	private Sender sender;
+	private RequestAnalyst requestAnalyst;
+	private String serverIP;
 
 	public Receiver() {
 	}
@@ -32,7 +35,6 @@ public class Receiver implements Runnable {
 
 	private void consume() {
 		try {
-			consumer = session.createConsumer(queue);
 			message = consumer.receive();
 		} catch (JMSException e) {
 			e.printStackTrace();
@@ -43,19 +45,21 @@ public class Receiver implements Runnable {
 		try {
 			while (true) {
 				consume();
+
+				requestAnalyst.analysis(message);
 				BytesMessage tMsg = (BytesMessage) message;
 				byte[] bytes = new byte[(int) ((BytesMessage) message).getBodyLength()];
-//				HashMap task = (HashMap) message.getObjectProperty("objectPropertyTest");
-//				System.out.println("Receiver AUTHOR : " + task.get("AUTHOR"));
 				tMsg.readBytes(bytes);
 
-				for (byte b : bytes) {
-//					System.out.println((char) b);
+				makeAnnotatorFile(bytes);
+
+				for (int i = 0; i <= bytes.length; i++) {
+					System.out.println("uploadSeq " + i + "/" + bytes.length);
+					sender.sendMessage("uploadSeq", +i + "/" + bytes.length);
+					if (i == bytes.length) {
+						sender.sendMessage("uploadSeq", "completed");
+					}
 				}
-
-
-				makeFile(bytes);
-
 			}
 		} catch (Exception e) {
 			System.out.println("Receiver Run Error");
@@ -63,12 +67,14 @@ public class Receiver implements Runnable {
 	}
 
 	public void init() {
+		requestAnalyst = new RequestAnalyst();
 		taskUnpacker = new TaskUnpacker();
 		factory = new ActiveMQConnectionFactory(ActiveMQConnection.DEFAULT_BROKER_URL);
 		try {
 			connection = factory.createConnection();
 			connection.start();
 			session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
+			consumer = session.createConsumer(queue);
 			queue = session.createQueue(queueName);
 		} catch (JMSException e) {
 			e.printStackTrace();
@@ -76,8 +82,12 @@ public class Receiver implements Runnable {
 	}
 
 
-	public void makeFile(byte[] bytes) {
-		taskUnpacker.makeFileFromByteArray(System.getProperty("user.dir") + "/lib/TestAnno4.jar", bytes);
+	public void makeAnnotatorFile(byte[] bytes) {
+		taskUnpacker.makeFileFromByteArray(System.getProperty("user.dir") + "\\lib\\", bytes);
+	}
+
+	public void makeInputFile(byte[] bytes) {
+		taskUnpacker.makeFileFromByteArray(System.getProperty("user.dir") + "\\input\\", bytes);
 	}
 
 	public TextMessage gettMsg() {
@@ -86,5 +96,17 @@ public class Receiver implements Runnable {
 
 	public void settMsg(TextMessage tMsg) {
 		this.tMsg = tMsg;
+	}
+
+	public void setSender(Sender sender) {
+		this.sender = sender;
+	}
+
+	public void setRequestAnalyst(RequestAnalyst requestAnalyst) {
+		this.requestAnalyst = requestAnalyst;
+	}
+
+	public void setServerIP(String serverIP) {
+		this.serverIP = serverIP;
 	}
 }

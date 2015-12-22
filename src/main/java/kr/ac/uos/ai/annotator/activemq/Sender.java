@@ -54,4 +54,19 @@ public class Sender {
 			e.printStackTrace();
 		}
 	}
+
+	public void sendMessage(String simpleMsgType, String process) {
+		TextMessage message;
+		try {
+			message = session.createTextMessage();
+			message.setObjectProperty("msgType", simpleMsgType);
+			message.setText(process);
+			producer.send(message);
+
+			message.clearBody();
+			message.clearProperties();
+		} catch (JMSException e) {
+			e.printStackTrace();
+		}
+	}
 }

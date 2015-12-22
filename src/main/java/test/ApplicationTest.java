@@ -1,13 +1,11 @@
 package test;
 
 import kr.ac.uos.ai.annotator.activemq.ActiveMQManager;
-import kr.ac.uos.ai.annotator.activemq.Receiver;
 import kr.ac.uos.ai.annotator.activemq.Sender;
 import kr.ac.uos.ai.annotator.taskarchiver.TaskArchiverCore;
 import kr.ac.uos.ai.annotator.taskarchiver.TaskPacker;
 import kr.ac.uos.ai.annotator.taskdistributor.TaskDistributor;
 import kr.ac.uos.ai.annotator.taskdistributor.TaskDistributorCore;
-import org.junit.Test;
 
 /**
  * Hello, Node!
@@ -16,10 +14,10 @@ import org.junit.Test;
 public class ApplicationTest {
 
     private ActiveMQManager activemqManager;
-    private Receiver rcvr;
     private Sender sdr;
     private TaskDistributor td;
     private TaskPacker tp;
+    private String serverIP;
 
     public ApplicationTest() {
         init();
@@ -27,6 +25,7 @@ public class ApplicationTest {
     }
 
     private void init() {
+        this.serverIP = "tcp://172.16.165.224";
         TaskArchiverCore tac = new TaskArchiverCore();
         TaskDistributorCore tdc = new TaskDistributorCore();
 
@@ -34,40 +33,23 @@ public class ApplicationTest {
         tac.init();
         tdc.init();
         tp = tac.getPacker();
-//        tp.init();
+        tp.init();
 
         activemqManager = new ActiveMQManager();
-        activemqManager.init("testQueue2");          // This init method makes receiver and starts receiver
 
         sdr = new Sender();
         sdr.init();
         sdr.createQueue("testQueue2");
+        activemqManager.setSender(sdr);
+        activemqManager.init("testQueue2");          // This init method makes receiver and starts receiver
 
-        byte[] tempByte = tp.file2Byte("C:/library/TestAnnotator.jar");
-        sdr.sendMessage(tempByte);
     }
 
     private void startApp() {
-
     }
 
     public static void main(String[] args) {
         System.out.println(1);
         new ApplicationTest();
-//        String[] tempStringArray = args;
-//
-//        if (tempStringArray[0].equals("-")) {
-//            caseStudyStart(tempStringArray);
-//        }
     }
-
-    private static void caseStudyStart(String[] temp) {
-//        switch (temp[1]) {
-//            case "o" :
-//                break;
-//            case "a" :
-//                break;
-//        }
-    }
-
 }

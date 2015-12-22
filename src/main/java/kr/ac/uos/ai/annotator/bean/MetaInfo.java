@@ -8,11 +8,9 @@ package kr.ac.uos.ai.annotator.bean;
 
 import kr.ac.uos.ai.annotator.bean.protocol.MsgType;
 
-import java.util.HashMap;
-
 public class MetaInfo {
 
-    private HashMap<String, String> propertyMap;
+    private String msgType;
     private String jobName;
     private String jobSize;
     private String version;
@@ -20,7 +18,7 @@ public class MetaInfo {
     private String developer;
 
     public MetaInfo(MsgType msg, String jobName, String jobSize, String version, String modifiedDate, String developer) {
-        this.propertyMap.put("msgType", msg.toString());
+        this.msgType = msg.toString();
         typeAnalysis(msg.toString());
     }
 
@@ -60,11 +58,51 @@ public class MetaInfo {
 
     }
 
-    public HashMap<String, String> getPropertyMap() {
-        return propertyMap;
+    public String getMsgType() {
+        return msgType;
     }
 
-    public void setPropertyMap(HashMap<String, String> propertyMap) {
-        this.propertyMap = propertyMap;
+    public void setMsgType(String msgType) {
+        this.msgType = msgType;
+    }
+
+    public String getJobName() {
+        return jobName;
+    }
+
+    public void setJobName(String jobName) {
+        this.jobName = jobName;
+    }
+
+    public String getJobSize() {
+        return jobSize;
+    }
+
+    public void setJobSize(String jobSize) {
+        this.jobSize = jobSize;
+    }
+
+    public String getVersion() {
+        return version;
+    }
+
+    public void setVersion(String version) {
+        this.version = version;
+    }
+
+    public String getModifiedDate() {
+        return modifiedDate;
+    }
+
+    public void setModifiedDate(String modifiedDate) {
+        this.modifiedDate = modifiedDate;
+    }
+
+    public String getDeveloper() {
+        return developer;
+    }
+
+    public void setDeveloper(String developer) {
+        this.developer = developer;
     }
 }
