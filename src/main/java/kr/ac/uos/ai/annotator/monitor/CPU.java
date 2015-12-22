@@ -7,4 +7,8 @@ package kr.ac.uos.ai.annotator.monitor;
  */
 
 public class CPU {
+
+    public CPU() {
+    }
+
 }
