@@ -1,3 +1,3 @@
-# UIMA Improvement Framework
+# UIMA Improvement Framework Node Manager
 
 ![U](/files/2 "UIMA")
