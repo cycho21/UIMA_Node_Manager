@@ -1,4 +1,4 @@
-package test;
+package kr.ac.uos.ai.annotator;
 
 import kr.ac.uos.ai.annotator.activemq.ActiveMQManager;
 import kr.ac.uos.ai.annotator.activemq.Sender;
@@ -9,7 +9,7 @@ import kr.ac.uos.ai.annotator.taskdistributor.TaskDistributor;
  * Hello, Node!
  */
 
-public class ApplicationTest {
+public class Application {
 
     private ActiveMQManager activemqManager;
     private Sender sdr;
@@ -17,14 +17,15 @@ public class ApplicationTest {
     private TaskPacker tp;
     private String serverIP;
 
-    public ApplicationTest() {
+    public Application() {
         init();
         startApp();
     }
 
     private void init() {
         this.serverIP = "localhost";
-//        TaskArchiverCore tac = new TaskArchiverCore();
+
+//        TaskAchieverCore tac = new TaskAchieverCore();
 //        TaskDistributorCore tdc = new TaskDistributorCore();
 //
 //        td = tdc.getTaskDistributor();
@@ -49,6 +50,6 @@ public class ApplicationTest {
     }
 
     public static void main(String[] args) {
-        new ApplicationTest();
+        new Application();
     }
 }

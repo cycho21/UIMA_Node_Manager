@@ -76,8 +76,15 @@ public class RequestHandler {
 
     public void makeFile(byte[] bytes, BytesMessage tMsg) {
         try {
-            taskUnpacker.makeFileFromByteArray(System.getProperty("user.dir") + "\\lib\\" +
-                    tMsg.getObjectProperty("FileName"), bytes);
+            String path;
+            if(tMsg.getObjectProperty("type").equals("jar")) {
+                path = System.getProperty("user.dir") + "\\annotator\\";
+            } else {
+                path = System.getProperty("user.dir") + "\\inputFile\\";
+            }
+            String fullPath = path +  tMsg.getObjectProperty("FileName");
+            taskUnpacker.makeFileFromByteArray(path, fullPath, bytes);
+            sdr.sendMessage("uploadSeq", "completed");
         } catch (JMSException e) {
             e.printStackTrace();
         }
@@ -114,6 +121,6 @@ public class RequestHandler {
 
     public void test() {
         sdr.sendMessage("uploadSeq", "completed");
-        annotatorDynamicLoader.loadClass("Test.jar", "kr.ac.uos.ai.Test");
+        annotatorDynamicLoader.loadClass("Test.jar", "kr.ac.uos.ai.Test", "Test1");
     }
 }

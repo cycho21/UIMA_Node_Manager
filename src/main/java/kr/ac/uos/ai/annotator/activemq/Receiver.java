@@ -68,14 +68,6 @@ public class Receiver implements Runnable {
 	}
 
 
-	public void makeAnnotatorFile(byte[] bytes) {
-		taskUnpacker.makeFileFromByteArray(System.getProperty("user.dir") + "\\lib\\", bytes);
-	}
-
-	public void makeInputFile(byte[] bytes) {
-		taskUnpacker.makeFileFromByteArray(System.getProperty("user.dir") + "\\input\\", bytes);
-	}
-
 	public TextMessage gettMsg() {
 		return tMsg;
 	}

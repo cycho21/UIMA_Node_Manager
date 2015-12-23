@@ -1,5 +1,6 @@
 package kr.ac.uos.ai.annotator.taskarchiver;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -22,13 +23,16 @@ public class TaskUnpacker {
      * @param pathName
      * @param byteArray
      */
-    public void makeFileFromByteArray(String pathName, byte[] byteArray) {
+    public void makeFileFromByteArray(String pathName, String fullPathName, byte[] byteArray) {
         FileOutputStream fos;
-
+        File dir = new File(pathName);
         try {
-            fos = new FileOutputStream(pathName);
-            fos.write(byteArray);
-            fos.close();
+            if (!dir.isDirectory()) {
+                dir.mkdirs();
+            }
+                fos = new FileOutputStream(fullPathName);
+                fos.write(byteArray);
+                fos.close();
         } catch (FileNotFoundException e) {
             System.out.println("Could not make file to custom path name");
         } catch (IOException e) {

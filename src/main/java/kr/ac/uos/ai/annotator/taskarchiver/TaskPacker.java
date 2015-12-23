@@ -2,7 +2,6 @@ package kr.ac.uos.ai.annotator.taskarchiver;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Test;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -99,20 +98,20 @@ public class TaskPacker {
 		return data;
 	}
 
-	public void byte2File(String outputFilePath) {
-		byte[] byteAraay = data;
-		TaskUnpacker fm = new TaskUnpacker();
-		fm.init();
-		fm.makeFileFromByteArray(outputFilePath, byteAraay);
-	}
+//	public void byte2File(String outputFilePath) {
+//		byte[] byteAraay = data;
+//		TaskUnpacker fm = new TaskUnpacker();
+//		fm.init();
+//		fm.makeFileFromByteArray(outputFilePath, byteAraay);
+//	}
 
-	@Test
-	public void test3() {
-		byte[] byteArray = data;
-		TaskUnpacker fM = new TaskUnpacker();
-		fM.init();
-		fM.makeFileFromByteArray("F:/jartest/ClientTest/asdf.jar", byteArray);
-	}
+//	@Test
+//	public void test3() {
+//		byte[] byteArray = data;
+//		TaskUnpacker fM = new TaskUnpacker();
+//		fM.init();
+//		fM.makeFileFromByteArray("F:/jartest/ClientTest/asdf.jar", byteArray);
+//	}
 
 	@Before
 	public void test2() {

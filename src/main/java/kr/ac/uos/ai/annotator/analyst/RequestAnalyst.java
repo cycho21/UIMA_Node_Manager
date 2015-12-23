@@ -33,6 +33,7 @@ public class RequestAnalyst {
 
         if(requestHandler == null) {
             this.requestHandler = new RequestHandler();
+            requestHandler.init();
         } else {
             /* doNothing */
         }
@@ -51,6 +52,7 @@ public class RequestAnalyst {
         /* get msgType */
         String msgType = null;
         try {
+            System.out.println(message);
             msgType = message.getObjectProperty("msgType").toString().toUpperCase();
         } catch (JMSException e) {
             e.printStackTrace();

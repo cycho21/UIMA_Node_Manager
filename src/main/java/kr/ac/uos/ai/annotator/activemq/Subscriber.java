@@ -23,6 +23,8 @@ public class Subscriber implements Runnable {
     private MessageConsumer consumer;
     private RequestAnalyst requestAnalyst;
     private Message message;
+    private Topic topic;
+    private TopicSubscriber subscriber;
 
     public Subscriber(String topicName, String serverIP, String clientID) {
         this.topicName = topicName;
@@ -32,7 +34,8 @@ public class Subscriber implements Runnable {
 
     public void consume() {
         try {
-            message = consumer.receive();
+//            message = consumer.receive();
+            message = subscriber.receive();
         } catch (JMSException e) {
             e.printStackTrace();
         }
@@ -52,8 +55,8 @@ public class Subscriber implements Runnable {
             connection.setClientID(clientID);
             connection.start();
             session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
-            Topic topic = session.createTopic(topicName);
-            consumer = session.createConsumer(topic);
+            topic = session.createTopic(topicName);
+            subscriber = session.createDurableSubscriber(topic, "Test_Durable_Subscriber");
         } catch (JMSException e) {
             e.printStackTrace();
         }
