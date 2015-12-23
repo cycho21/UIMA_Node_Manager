@@ -5,7 +5,7 @@ import kr.ac.uos.ai.annotator.analyst.RequestAnalyst;
 public class ActiveMQManager {
 
 	private String queueName;
-	private ClientReceiver clientReceiver;
+	private Receiver receiver;
 	private RequestAnalyst requestAnalyst;
 	private String serverIP;
 	private Sender sender;
@@ -26,13 +26,13 @@ public class ActiveMQManager {
 		Thread subscribeThread = new Thread(subscriber);
 		subscribeThread.start();
 
-		clientReceiver = new ClientReceiver();
-		clientReceiver.setServerIP(serverIP);
-		clientReceiver.setQueueName(queueName);
-		clientReceiver.setRequestAnalyst(requestAnalyst);
-		clientReceiver.setSender(sender);
-		clientReceiver.init();
-		Thread receiverThread = new Thread(clientReceiver);
+		receiver = new Receiver();
+		receiver.setServerIP(serverIP);
+		receiver.setQueueName(queueName);
+		receiver.setRequestAnalyst(requestAnalyst);
+		receiver.setSender(sender);
+		receiver.init();
+		Thread receiverThread = new Thread(receiver);
 		receiverThread.start();
 	}
 
@@ -44,12 +44,12 @@ public class ActiveMQManager {
 		this.queueName = queueName;
 	}
 
-	public ClientReceiver getClientReceiver() {
-		return clientReceiver;
+	public Receiver getReceiver() {
+		return receiver;
 	}
 
-	public void setClientReceiver(ClientReceiver clientReceiver) {
-		this.clientReceiver = clientReceiver;
+	public void setReceiver(Receiver receiver) {
+		this.receiver = receiver;
 	}
 
 	public void setSender(Sender sender) {

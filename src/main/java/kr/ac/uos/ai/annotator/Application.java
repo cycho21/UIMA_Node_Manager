@@ -25,15 +25,6 @@ public class Application {
     private void init() {
         this.serverIP = "localhost";
 
-//        TaskAchieverCore tac = new TaskAchieverCore();
-//        TaskDistributorCore tdc = new TaskDistributorCore();
-//
-//        td = tdc.getTaskDistributor();
-//        tac.init();
-//        tdc.init();
-//        tp = tac.getPacker();
-//        tp.init();
-
         activemqManager = new ActiveMQManager();
         activemqManager.setServerIP(serverIP);
 

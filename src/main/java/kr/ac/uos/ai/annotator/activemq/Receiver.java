@@ -5,7 +5,7 @@ import org.apache.activemq.ActiveMQConnectionFactory;
 
 import javax.jms.*;
 
-public class ClientReceiver implements Runnable {
+public class Receiver implements Runnable {
 
 	private String queueName;
 	private ActiveMQConnectionFactory factory;
@@ -18,7 +18,7 @@ public class ClientReceiver implements Runnable {
     private String serverIP;
     private Sender sender;
 
-    public ClientReceiver() {
+    public Receiver() {
 	}
 
 	public void setQueueName(String queueName) {
