@@ -9,6 +9,7 @@ public class ActiveMQManager {
 	private RequestAnalyst requestAnalyst;
 	private String serverIP;
 	private Sender sender;
+	private Subscriber subscriber;
 
 	public ActiveMQManager() {
 	}
@@ -16,7 +17,15 @@ public class ActiveMQManager {
 	public void init(String queueName) {
 		this.mqueueName = queueName;
 		requestAnalyst = new RequestAnalyst();
+		requestAnalyst.setSender(sender);
 		requestAnalyst.init();
+
+		subscriber = new Subscriber("basicTopicName", serverIP, System.getProperty("user.name"));
+		subscriber.init();
+		Thread subscribeThread = new Thread(subscriber);
+		subscribeThread.start();
+
+		receiver = new Receiver();
 		receiver.setServerIP(serverIP);
 		receiver.setQueueName(queueName);
 		receiver.setRequestAnalyst(requestAnalyst);
@@ -44,5 +53,9 @@ public class ActiveMQManager {
 
 	public void setSender(Sender sender) {
 		this.sender = sender;
+	}
+
+	public void setServerIP(String serverIP) {
+		this.serverIP = serverIP;
 	}
 }

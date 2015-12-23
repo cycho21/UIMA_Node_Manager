@@ -12,6 +12,7 @@ public class Job {
     private String version;
     private String modifiedDate;
     private String developer;
+    private String jobSize;
 
     public String getJobName() {
         return jobName;
@@ -43,5 +44,13 @@ public class Job {
 
     public void setDeveloper(String developer) {
         this.developer = developer;
+    }
+
+    public void setJobSize(String jobSize) {
+        this.jobSize = jobSize;
+    }
+
+    public String getJobSize() {
+        return jobSize;
     }
 }

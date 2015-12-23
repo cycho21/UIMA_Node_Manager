@@ -45,21 +45,7 @@ public class Receiver implements Runnable {
 		try {
 			while (true) {
 				consume();
-
 				requestAnalyst.analysis(message);
-				BytesMessage tMsg = (BytesMessage) message;
-				byte[] bytes = new byte[(int) ((BytesMessage) message).getBodyLength()];
-				tMsg.readBytes(bytes);
-
-				makeAnnotatorFile(bytes);
-
-				for (int i = 0; i <= bytes.length; i++) {
-					System.out.println("uploadSeq " + i + "/" + bytes.length);
-					sender.sendMessage("uploadSeq", +i + "/" + bytes.length);
-					if (i == bytes.length) {
-						sender.sendMessage("uploadSeq", "completed");
-					}
-				}
 			}
 		} catch (Exception e) {
 			System.out.println("Receiver Run Error");

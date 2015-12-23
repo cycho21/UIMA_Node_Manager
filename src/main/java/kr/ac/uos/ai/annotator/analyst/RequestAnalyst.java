@@ -1,5 +1,6 @@
 package kr.ac.uos.ai.annotator.analyst;
 
+import kr.ac.uos.ai.annotator.activemq.Sender;
 import kr.ac.uos.ai.annotator.bean.Task;
 import kr.ac.uos.ai.annotator.bean.protocol.MsgType;
 
@@ -37,8 +38,8 @@ public class RequestAnalyst {
         }
     }
 
-    public void injectTask(Message message) {
-//        analysis(taskGenerator.genTask(message));
+    public void setSender(Sender sdr) {
+        requestHandler.setSdr(sdr);
     }
 
     /**
@@ -60,6 +61,9 @@ public class RequestAnalyst {
                 break;
             case GETJOBLIST:
                 requestHandler.getJobList(message);
+                break;
+            case UPLOADSEQ:
+                requestHandler.uploadSeq(message);
                 break;
             case UPLOAD:
                 requestHandler.upLoad(message);

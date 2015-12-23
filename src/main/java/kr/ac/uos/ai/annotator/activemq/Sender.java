@@ -11,6 +11,7 @@ public class Sender {
 	private Session session;
 	private Queue queue;
 	private MessageProducer producer;
+	private String serverIP;
 
 	public Sender() {
 	
@@ -34,7 +35,7 @@ public class Sender {
 	}
 
 	public void init() {
-		factory = new ActiveMQConnectionFactory(ActiveMQConnection.DEFAULT_BROKER_URL);
+		factory = new ActiveMQConnectionFactory("tcp://" + serverIP + ":61616");
 		try {
 			connection = factory.createConnection();
 			connection.start();
@@ -68,5 +69,9 @@ public class Sender {
 		} catch (JMSException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public void setServerIP(String serverIP) {
+		this.serverIP = serverIP;
 	}
 }

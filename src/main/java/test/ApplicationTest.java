@@ -25,7 +25,7 @@ public class ApplicationTest {
     }
 
     private void init() {
-        this.serverIP = "tcp://172.16.165.224";
+        this.serverIP = "localhost";
         TaskArchiverCore tac = new TaskArchiverCore();
         TaskDistributorCore tdc = new TaskDistributorCore();
 
@@ -36,12 +36,14 @@ public class ApplicationTest {
         tp.init();
 
         activemqManager = new ActiveMQManager();
+        activemqManager.setServerIP(serverIP);
 
         sdr = new Sender();
+        sdr.setServerIP(serverIP);
         sdr.init();
-        sdr.createQueue("testQueue2");
+        sdr.createQueue("node2client");
         activemqManager.setSender(sdr);
-        activemqManager.init("testQueue2");          // This init method makes receiver and starts receiver
+        activemqManager.init("client2node");          // This init method makes receiver and starts receiver
 
     }
 
