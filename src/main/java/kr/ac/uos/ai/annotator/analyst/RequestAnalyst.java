@@ -60,7 +60,7 @@ public class RequestAnalyst {
                 requestHandler.requestJob(message);
                 break;
             case GETJOBLIST:
-                requestHandler.getJobList(message);
+                requestHandler.getJobList();
                 break;
             case UPLOADSEQ:
                 requestHandler.uploadSeq(message);

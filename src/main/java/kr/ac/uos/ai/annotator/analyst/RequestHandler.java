@@ -9,7 +9,6 @@ import kr.ac.uos.ai.annotator.taskarchiver.TaskUnpacker;
 import javax.jms.BytesMessage;
 import javax.jms.JMSException;
 import javax.jms.Message;
-import javax.jms.TextMessage;
 import java.util.ArrayList;
 
 /**
@@ -58,9 +57,7 @@ public class RequestHandler {
     }
 
     public void sendJob(Message message) {
-        TextMessage msg = (TextMessage) message;
-        Protocol protocol = makeProtocol(message);
-
+        JobList.getJobList().add(makeJob(message));
     }
 
     public void upLoad(Message message) {
@@ -84,9 +81,11 @@ public class RequestHandler {
     }
 
     public void requestJob(Message message) {
+        Protocol protocol = makeProtocol(message);
+
     }
 
-    public ArrayList<Job> getJobList(Message message) {
+    public ArrayList<Job> getJobList() {
         return jobList.getJobList();
     }
 
