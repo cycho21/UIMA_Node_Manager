@@ -2,7 +2,6 @@ package kr.ac.uos.ai.annotator.activemq;
 
 import kr.ac.uos.ai.annotator.analyst.RequestAnalyst;
 import org.apache.activemq.ActiveMQConnectionFactory;
-import org.apache.activemq.memory.list.MessageList;
 
 import javax.jms.*;
 
@@ -42,12 +41,12 @@ public class Subscriber implements Runnable {
     public void run() {
         while(true){
             consume();
+            System.out.println(message);
             requestAnalyst.analysis(message);
         }
     }
 
     public void init() {
-        requestAnalyst = new RequestAnalyst();
         connectionFactory = new ActiveMQConnectionFactory("tcp://" + serverIP + ":61616");
         try {
             connection = connectionFactory.createConnection();
@@ -85,4 +84,7 @@ public class Subscriber implements Runnable {
         this.serverIP = serverIP;
     }
 
+    public void setRequestAnalyst(RequestAnalyst requestAnalyst) {
+        this.requestAnalyst = requestAnalyst;
+    }
 }

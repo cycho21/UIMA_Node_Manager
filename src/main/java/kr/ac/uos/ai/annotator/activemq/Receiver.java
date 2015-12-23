@@ -60,8 +60,8 @@ public class Receiver implements Runnable {
 			connection = factory.createConnection();
 			connection.start();
 			session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
-			consumer = session.createConsumer(queue);
 			queue = session.createQueue(queueName);
+			consumer = session.createConsumer(queue);
 		} catch (JMSException e) {
 			e.printStackTrace();
 		}

@@ -1,6 +1,5 @@
 package kr.ac.uos.ai.annotator.activemq;
 
-import org.apache.activemq.ActiveMQConnection;
 import org.apache.activemq.ActiveMQConnectionFactory;
 
 import javax.jms.*;
@@ -20,7 +19,7 @@ public class Sender {
 	public void createQueue(String queueName) {
 		try {
 			queue = session.createQueue(queueName);
-		} catch (JMSException e) {
+        } catch (JMSException e) {
 			e.printStackTrace();
 		}
 		set();
@@ -35,14 +34,17 @@ public class Sender {
 	}
 
 	public void init() {
-		factory = new ActiveMQConnectionFactory("tcp://" + serverIP + ":61616");
-		try {
-			connection = factory.createConnection();
-			connection.start();
-			session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
-		} catch (JMSException e) {
-			e.printStackTrace();
-		}
+        if (serverIP == null) {
+        } else {
+            factory = new ActiveMQConnectionFactory("tcp://" + serverIP + ":61616");
+            try {
+                connection = factory.createConnection();
+                connection.start();
+                session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
+            } catch (JMSException e) {
+                e.printStackTrace();
+            }
+        }
 	}
 
 	public void sendMessage(byte[] msg) {
@@ -59,13 +61,11 @@ public class Sender {
 	public void sendMessage(String simpleMsgType, String process) {
 		TextMessage message;
 		try {
-			message = session.createTextMessage();
+            System.out.println(1);
+            message = session.createTextMessage();
 			message.setObjectProperty("msgType", simpleMsgType);
 			message.setText(process);
 			producer.send(message);
-
-			message.clearBody();
-			message.clearProperties();
 		} catch (JMSException e) {
 			e.printStackTrace();
 		}

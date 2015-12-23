@@ -2,10 +2,8 @@ package test;
 
 import kr.ac.uos.ai.annotator.activemq.ActiveMQManager;
 import kr.ac.uos.ai.annotator.activemq.Sender;
-import kr.ac.uos.ai.annotator.taskarchiver.TaskArchiverCore;
 import kr.ac.uos.ai.annotator.taskarchiver.TaskPacker;
 import kr.ac.uos.ai.annotator.taskdistributor.TaskDistributor;
-import kr.ac.uos.ai.annotator.taskdistributor.TaskDistributorCore;
 
 /**
  * Hello, Node!
@@ -26,14 +24,14 @@ public class ApplicationTest {
 
     private void init() {
         this.serverIP = "localhost";
-        TaskArchiverCore tac = new TaskArchiverCore();
-        TaskDistributorCore tdc = new TaskDistributorCore();
-
-        td = tdc.getTaskDistributor();
-        tac.init();
-        tdc.init();
-        tp = tac.getPacker();
-        tp.init();
+//        TaskArchiverCore tac = new TaskArchiverCore();
+//        TaskDistributorCore tdc = new TaskDistributorCore();
+//
+//        td = tdc.getTaskDistributor();
+//        tac.init();
+//        tdc.init();
+//        tp = tac.getPacker();
+//        tp.init();
 
         activemqManager = new ActiveMQManager();
         activemqManager.setServerIP(serverIP);
@@ -51,7 +49,6 @@ public class ApplicationTest {
     }
 
     public static void main(String[] args) {
-        System.out.println(1);
         new ApplicationTest();
     }
 }

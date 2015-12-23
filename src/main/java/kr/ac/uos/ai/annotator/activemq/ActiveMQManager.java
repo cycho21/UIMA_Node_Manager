@@ -4,7 +4,7 @@ import kr.ac.uos.ai.annotator.analyst.RequestAnalyst;
 
 public class ActiveMQManager {
 
-	private String mqueueName;
+	private String queueName;
 	private Receiver receiver;
 	private RequestAnalyst requestAnalyst;
 	private String serverIP;
@@ -15,12 +15,13 @@ public class ActiveMQManager {
 	}
 
 	public void init(String queueName) {
-		this.mqueueName = queueName;
+		this.queueName = queueName;
 		requestAnalyst = new RequestAnalyst();
-		requestAnalyst.setSender(sender);
 		requestAnalyst.init();
+		requestAnalyst.setSender(sender);
 
-		subscriber = new Subscriber("basicTopicName", serverIP, System.getProperty("user.name"));
+		subscriber = new Subscriber("basicTopicName", serverIP, System.getProperty("user.name" + 4));
+        subscriber.setRequestAnalyst(requestAnalyst);
 		subscriber.init();
 		Thread subscribeThread = new Thread(subscriber);
 		subscribeThread.start();
@@ -35,12 +36,12 @@ public class ActiveMQManager {
 		receiverThread.start();
 	}
 
-	public String getMqueueName() {
-		return mqueueName;
+	public String getQueueName() {
+		return queueName;
 	}
 
-	public void setMqueueName(String mqueueName) {
-		this.mqueueName = mqueueName;
+	public void setQueueName(String queueName) {
+		this.queueName = queueName;
 	}
 
 	public Receiver getReceiver() {

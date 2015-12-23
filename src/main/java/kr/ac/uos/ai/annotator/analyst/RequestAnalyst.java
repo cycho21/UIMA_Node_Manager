@@ -1,7 +1,6 @@
 package kr.ac.uos.ai.annotator.analyst;
 
 import kr.ac.uos.ai.annotator.activemq.Sender;
-import kr.ac.uos.ai.annotator.bean.Task;
 import kr.ac.uos.ai.annotator.bean.protocol.MsgType;
 
 import javax.jms.JMSException;
@@ -17,6 +16,7 @@ public class RequestAnalyst {
 
     private TaskGenerator taskGenerator;
     private RequestHandler requestHandler;
+    private Sender sdr;
 
     /**
      * This constructor has no function.
@@ -39,6 +39,8 @@ public class RequestAnalyst {
     }
 
     public void setSender(Sender sdr) {
+        this.sdr = sdr;
+        System.out.println(sdr);
         requestHandler.setSdr(sdr);
     }
 
@@ -70,6 +72,9 @@ public class RequestAnalyst {
                 break;
             case SENDJOB:
                 requestHandler.sendJob(message);
+                break;
+            case TEST:
+                sdr.sendMessage("uploadSeq", "completed");
                 break;
             default:
                 /* doNothing */
