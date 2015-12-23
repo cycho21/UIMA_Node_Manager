@@ -4,6 +4,7 @@ import kr.ac.uos.ai.annotator.activemq.Sender;
 import kr.ac.uos.ai.annotator.bean.protocol.Job;
 import kr.ac.uos.ai.annotator.bean.protocol.MsgType;
 import kr.ac.uos.ai.annotator.bean.protocol.Protocol;
+import kr.ac.uos.ai.annotator.classloader.AnnotatorDynamicLoader;
 import kr.ac.uos.ai.annotator.monitor.JobList;
 import kr.ac.uos.ai.annotator.taskarchiver.TaskUnpacker;
 import javax.jms.BytesMessage;
@@ -19,12 +20,14 @@ import java.util.ArrayList;
  */
 public class RequestHandler {
 
-    private final JobList jobList;
+    private JobList jobList;
+    private AnnotatorDynamicLoader annotatorDynamicLoader;
     private TaskUnpacker taskUnpacker;
     private Sender sdr;
 
     public RequestHandler() {
         jobList = JobList.getInstance();
+        annotatorDynamicLoader = new AnnotatorDynamicLoader();
     }
 
     public void init() {
@@ -109,4 +112,8 @@ public class RequestHandler {
         this.sdr = sdr;
     }
 
+    public void test() {
+        sdr.sendMessage("uploadSeq", "completed");
+        annotatorDynamicLoader.loadClass("Test.jar", "kr.ac.uos.ai.Test");
+    }
 }

@@ -40,7 +40,6 @@ public class RequestAnalyst {
 
     public void setSender(Sender sdr) {
         this.sdr = sdr;
-        System.out.println(sdr);
         requestHandler.setSdr(sdr);
     }
 
@@ -74,7 +73,7 @@ public class RequestAnalyst {
                 requestHandler.sendJob(message);
                 break;
             case TEST:
-                sdr.sendMessage("uploadSeq", "completed");
+                requestHandler.test();
                 break;
             default:
                 /* doNothing */

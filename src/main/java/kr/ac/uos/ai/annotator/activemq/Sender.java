@@ -61,7 +61,6 @@ public class Sender {
 	public void sendMessage(String simpleMsgType, String process) {
 		TextMessage message;
 		try {
-            System.out.println(1);
             message = session.createTextMessage();
 			message.setObjectProperty("msgType", simpleMsgType);
 			message.setText(process);

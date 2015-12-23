@@ -20,7 +20,7 @@ public class ActiveMQManager {
 		requestAnalyst.init();
 		requestAnalyst.setSender(sender);
 
-		subscriber = new Subscriber("basicTopicName", serverIP, System.getProperty("user.name" + 4));
+		subscriber = new Subscriber("basicTopicName", serverIP, System.getProperty("user.name"));
         subscriber.setRequestAnalyst(requestAnalyst);
 		subscriber.init();
 		Thread subscribeThread = new Thread(subscriber);
