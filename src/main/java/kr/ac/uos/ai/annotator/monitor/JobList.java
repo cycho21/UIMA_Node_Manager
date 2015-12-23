@@ -1,7 +1,8 @@
 package kr.ac.uos.ai.annotator.monitor;
 
 import kr.ac.uos.ai.annotator.bean.protocol.Job;
-import java.util.ArrayList;
+
+import java.util.HashMap;
 
 /**
  * @author Chan Yeon, Cho
@@ -12,17 +13,17 @@ import java.util.ArrayList;
 
 public class JobList {
     private static JobList ourInstance = new JobList();
-    private static ArrayList<Job> jobList;
+    private static HashMap<String, Job> jobList;
 
     public static JobList getInstance() {
         return ourInstance;
     }
 
-    public static ArrayList<Job> getJobList() {
+    public static HashMap<String, Job> getJobList() {
         if(jobList!=null){
             /* doNothing; */
         } else {
-            jobList = new ArrayList<Job>();
+            jobList = new HashMap<>();
         }
         return jobList;
     }

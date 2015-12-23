@@ -1,13 +1,11 @@
 package kr.ac.uos.ai.annotator.activemq;
 
 import kr.ac.uos.ai.annotator.analyst.RequestAnalyst;
-import kr.ac.uos.ai.annotator.taskarchiver.TaskUnpacker;
-import org.apache.activemq.ActiveMQConnection;
 import org.apache.activemq.ActiveMQConnectionFactory;
 
 import javax.jms.*;
 
-public class Receiver implements Runnable {
+public class ClientReceiver implements Runnable {
 
 	private String queueName;
 	private ActiveMQConnectionFactory factory;
@@ -15,18 +13,12 @@ public class Receiver implements Runnable {
 	private Session session;
 	private Queue queue;
 	private MessageConsumer consumer;
-	private Message message;
-	private TextMessage tMsg;
-	private TaskUnpacker taskUnpacker;
-	private Sender sender;
+	private TextMessage message;
 	private RequestAnalyst requestAnalyst;
-	private String serverIP;
+    private String serverIP;
+    private Sender sender;
 
-	public Receiver() {
-	}
-
-	public String getQueueName() {
-		return queueName;
+    public ClientReceiver() {
 	}
 
 	public void setQueueName(String queueName) {
@@ -35,8 +27,9 @@ public class Receiver implements Runnable {
 
 	private void consume() {
 		try {
-			message = consumer.receive();
-		} catch (JMSException e) {
+			message = (TextMessage) consumer.receive();
+			requestAnalyst.analysis(message);
+        } catch (JMSException e) {
 			e.printStackTrace();
 		}
 	}
@@ -45,17 +38,14 @@ public class Receiver implements Runnable {
 		try {
 			while (true) {
 				consume();
-				requestAnalyst.analysis(message);
 			}
 		} catch (Exception e) {
-			System.out.println("Receiver Run Error");
+			e.printStackTrace();
 		}
 	}
 
 	public void init() {
-		requestAnalyst = new RequestAnalyst();
-		taskUnpacker = new TaskUnpacker();
-		factory = new ActiveMQConnectionFactory(ActiveMQConnection.DEFAULT_BROKER_URL);
+		factory = new ActiveMQConnectionFactory("tcp://" + serverIP + ":61616");
 		try {
 			connection = factory.createConnection();
 			connection.start();
@@ -67,19 +57,6 @@ public class Receiver implements Runnable {
 		}
 	}
 
-
-	public TextMessage gettMsg() {
-		return tMsg;
-	}
-
-	public void settMsg(TextMessage tMsg) {
-		this.tMsg = tMsg;
-	}
-
-	public void setSender(Sender sender) {
-		this.sender = sender;
-	}
-
 	public void setRequestAnalyst(RequestAnalyst requestAnalyst) {
 		this.requestAnalyst = requestAnalyst;
 	}
@@ -87,4 +64,8 @@ public class Receiver implements Runnable {
 	public void setServerIP(String serverIP) {
 		this.serverIP = serverIP;
 	}
+
+    public void setSender(Sender sender) {
+        this.sender = sender;
+    }
 }
