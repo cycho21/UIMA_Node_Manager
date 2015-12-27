@@ -92,7 +92,7 @@ public class RequestHandler {
             } else {
                 path = System.getProperty("user.dir") + "\\inputFile\\";
             }
-            String fullPath = path + tMsg.getObjectProperty("FileName");
+            String fullPath = path + tMsg.getObjectProperty("fileName");
             taskUnpacker.makeFileFromByteArray(path, fullPath, bytes);
             sdr.sendMessage("uploadSeq", "completed");
         } catch (JMSException e) {
