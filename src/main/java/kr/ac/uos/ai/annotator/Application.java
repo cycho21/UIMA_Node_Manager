@@ -17,6 +17,7 @@ public class Application {
     private TaskDistributor td;
     private TaskPacker tp;
     private String serverIP;
+    private boolean annoIsRun;
 
     public Application() {
         init();
@@ -25,7 +26,7 @@ public class Application {
 
     private void init() {
         this.serverIP = "localhost";
-
+        annoIsRun = false;
         activemqManager = new ActiveMQManager();
         activemqManager.setServerIP(serverIP);
 

@@ -9,7 +9,6 @@ import kr.ac.uos.ai.annotator.classloader.JobTracker;
 import kr.ac.uos.ai.annotator.forker.ProcessForker;
 import kr.ac.uos.ai.annotator.monitor.JobList;
 import kr.ac.uos.ai.annotator.taskarchiver.TaskUnpacker;
-import org.apache.commons.exec.ExecuteWatchdog;
 
 import javax.jms.BytesMessage;
 import javax.jms.JMSException;
@@ -31,6 +30,7 @@ public class RequestHandler {
     private JobTracker jobTracker;
     private Sender nsdr;
     private ProcessForker processForker;
+    private Boolean annoIsRun;
 
     public RequestHandler() {
         jobList = JobList.getInstance();
@@ -41,15 +41,13 @@ public class RequestHandler {
         taskUnpacker = new TaskUnpacker();
         jobTracker = new JobTracker();
         processForker = new ProcessForker();
+        this.annoIsRun = false;
     }
 
     public Job makeJob(Message message) {
         Job job = new Job();
         try {
-            job.setModifiedDate(message.getObjectProperty("modifiedDate").toString());
-            job.setDeveloper(message.getObjectProperty("developer").toString());
-            job.setJobName(message.getObjectProperty("jobName").toString());
-            job.setVersion(message.getObjectProperty("version").toString());
+            job.setAnnoName(message.getObjectProperty("fileName").toString());
         } catch (JMSException e) {
             e.printStackTrace();
         }
@@ -60,7 +58,7 @@ public class RequestHandler {
         Protocol protocol = new Protocol();
         protocol.setJob(makeJob(message));
         try {
-            protocol.setMsgType(MsgType.valueOf(message.getObjectProperty("msgType").toString()));
+            protocol.setMsgType(MsgType.valueOf(message.getObjectProperty("msgType").toString().toUpperCase()));
         } catch (JMSException e) {
             e.printStackTrace();
         }
@@ -69,8 +67,15 @@ public class RequestHandler {
 
     public void requestJob(Message message) {
 //        Protocol protocol = makeProtocol(message);
-        System.out.println("Annotator Running...");
-        ExecuteWatchdog watchdog = processForker.forkNewProc();
+//        if(annoIsRun){
+//            System.out.println("Annotator already running...");
+//        } else {
+//            System.out.println("Annotator Running...");
+//            ProcessForker processForker = new ProcessForker();
+//            Thread tempThread = new Thread(processForker);
+//            processForker.setJarFileName(protocol.getJob().getAnnoName());
+//            tempThread.start();
+//        }
     }
 
     public void upLoad(Message message) {
@@ -128,5 +133,18 @@ public class RequestHandler {
     public void test() {
         sdr.sendMessage("uploadSeq", "completed");
         annotatorDynamicLoader.loadClass("Test.jar", "kr.ac.uos.ai.Test", "Test1");
+    }
+
+    public void annoRun(Message message) {
+        Protocol protocol = makeProtocol(message);
+        if(annoIsRun){
+            System.out.println("Annotator is already running...");
+        } else {
+            System.out.println("Annotator is starting...");
+            ProcessForker processForker = new ProcessForker();
+            Thread tempThread = new Thread(processForker);
+            processForker.setJarFileName(protocol.getJob().getAnnoName());
+            tempThread.start();
+        }
     }
 }

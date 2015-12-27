@@ -13,6 +13,15 @@ public class Job {
     private String modifiedDate;
     private String developer;
     private String jobSize;
+    private String annoName;
+
+    public String getAnnoName() {
+        return annoName;
+    }
+
+    public void setAnnoName(String annoName) {
+        this.annoName = annoName;
+    }
 
     public String getJobName() {
         return jobName;

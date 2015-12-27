@@ -60,6 +60,9 @@ public class RequestAnalyst {
         }
 
         switch (MsgType.valueOf(msgType)) {
+            case ANNORUN:
+                requestHandler.annoRun(message);
+                break;
             case REQUESTJOB:
                 requestHandler.requestJob(message);
                 break;
