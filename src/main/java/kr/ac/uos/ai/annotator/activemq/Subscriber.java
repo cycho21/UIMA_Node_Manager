@@ -49,7 +49,7 @@ public class Subscriber implements Runnable {
     }
 
     public void init() {
-        connectionFactory = new ActiveMQConnectionFactory("tcp://" + serverIP + ":61616");
+        connectionFactory = new ActiveMQConnectionFactory("tcp://211.109.9.71:61616");
         try {
             connection = connectionFactory.createConnection();
             connection.setClientID(clientID);

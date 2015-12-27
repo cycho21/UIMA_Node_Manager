@@ -36,7 +36,7 @@ public class Sender {
 	public void init() {
         if (serverIP == null) {
         } else {
-            factory = new ActiveMQConnectionFactory("tcp://" + serverIP + ":61616");
+            factory = new ActiveMQConnectionFactory("tcp://211.109.9.71:61616");
             try {
                 connection = factory.createConnection();
                 connection.start();

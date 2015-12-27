@@ -10,15 +10,16 @@ public class ActiveMQManager {
 	private String serverIP;
 	private Sender sender;
 	private Subscriber subscriber;
+    private Sender nsdr;
 
-	public ActiveMQManager() {
+    public ActiveMQManager() {
 	}
 
 	public void init(String queueName) {
 		this.queueName = queueName;
 		requestAnalyst = new RequestAnalyst();
 		requestAnalyst.init();
-		requestAnalyst.setSender(sender);
+		requestAnalyst.setSender(sender, nsdr);
 
 		subscriber = new Subscriber("basicTopicName", serverIP, System.getProperty("user.name"));
         subscriber.setRequestAnalyst(requestAnalyst);
@@ -52,8 +53,9 @@ public class ActiveMQManager {
 		this.receiver = receiver;
 	}
 
-	public void setSender(Sender sender) {
+	public void setSender(Sender sender, Sender nsdr) {
 		this.sender = sender;
+        this.nsdr = nsdr;
 	}
 
 	public void setServerIP(String serverIP) {

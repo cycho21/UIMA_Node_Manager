@@ -17,6 +17,7 @@ public class RequestAnalyst {
     private TaskGenerator taskGenerator;
     private RequestHandler requestHandler;
     private Sender sdr;
+    private Sender nsdr;
 
     /**
      * This constructor has no function.
@@ -39,9 +40,10 @@ public class RequestAnalyst {
         }
     }
 
-    public void setSender(Sender sdr) {
+    public void setSender(Sender sdr, Sender nsdr) {
         this.sdr = sdr;
-        requestHandler.setSdr(sdr);
+        this.nsdr = nsdr;
+        requestHandler.setSdr(sdr, nsdr);
     }
 
     /**
@@ -52,7 +54,6 @@ public class RequestAnalyst {
         /* get msgType */
         String msgType = null;
         try {
-            System.out.println(message);
             msgType = message.getObjectProperty("msgType").toString().toUpperCase();
         } catch (JMSException e) {
             e.printStackTrace();
@@ -71,10 +72,8 @@ public class RequestAnalyst {
             case UPLOAD:
                 requestHandler.upLoad(message);
                 break;
-            case SENDJOB:
-                requestHandler.sendJob(message);
-                break;
             case TEST:
+                System.out.println(111);
                 requestHandler.test();
                 break;
             default:

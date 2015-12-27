@@ -13,6 +13,7 @@ public class Application {
 
     private ActiveMQManager activemqManager;
     private Sender sdr;
+    private Sender nsdr;
     private TaskDistributor td;
     private TaskPacker tp;
     private String serverIP;
@@ -32,8 +33,14 @@ public class Application {
         sdr.setServerIP(serverIP);
         sdr.init();
         sdr.createQueue("node2client");
-        activemqManager.setSender(sdr);
-        activemqManager.init("client2node");          // This init method makes receiver and starts receiver
+
+        nsdr = new Sender();
+        nsdr.setServerIP(serverIP);
+        nsdr.init();
+        nsdr.createQueue("node2client");
+
+        activemqManager.setSender(sdr, nsdr);
+        activemqManager.init("main2node");          // This init method makes receiver and starts receiver
 
     }
 
