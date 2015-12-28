@@ -63,7 +63,7 @@ public class Sender {
 		try {
             message = session.createTextMessage();
 			message.setObjectProperty("msgType", simpleMsgType);
-			message.setText(process);
+			message.setObjectProperty("text", process);
 			producer.send(message);
 		} catch (JMSException e) {
 			e.printStackTrace();
