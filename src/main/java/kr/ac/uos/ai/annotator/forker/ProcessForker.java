@@ -39,7 +39,7 @@ public class ProcessForker implements Runnable {
     public ExecuteWatchdog forkNewProc() {
         String path = System.getProperty("user.dir");
         String line = "java -jar " + path +
-                "\\annotator\\" + jarFileName;
+                "/annotator/" + jarFileName;
         CommandLine cmdLine = CommandLine.parse(line);
         DefaultExecutor executor = new DefaultExecutor();
         try {

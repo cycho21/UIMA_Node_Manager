@@ -4,6 +4,8 @@ import kr.ac.uos.ai.annotator.analyst.RequestAnalyst;
 import org.apache.activemq.ActiveMQConnectionFactory;
 
 import javax.jms.*;
+import java.net.Inet4Address;
+import java.net.UnknownHostException;
 
 /**
  * @author Chan Yeon, Cho
@@ -34,7 +36,6 @@ public class Subscriber implements Runnable {
 
     public void consume() {
         try {
-//            message = consumer.receive();
             message = subscriber.receive();
         } catch (JMSException e) {
             e.printStackTrace();
@@ -56,8 +57,10 @@ public class Subscriber implements Runnable {
             connection.start();
             session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
             topic = session.createTopic(topicName);
-            subscriber = session.createDurableSubscriber(topic, "Test_Durable_Subscriber");
+            subscriber = session.createDurableSubscriber(topic, System.getProperty(Inet4Address.getLocalHost().getHostAddress().toString()));
         } catch (JMSException e) {
+            e.printStackTrace();
+        } catch (UnknownHostException e) {
             e.printStackTrace();
         }
     }

@@ -28,6 +28,7 @@ public class Receiver implements Runnable {
 	private void consume() {
 		try {
 			message = (TextMessage) consumer.receive();
+			System.out.println(message);
 			requestAnalyst.analysis(message);
         } catch (JMSException e) {
 			e.printStackTrace();

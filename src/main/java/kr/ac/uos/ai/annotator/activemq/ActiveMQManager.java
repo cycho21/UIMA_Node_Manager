@@ -2,6 +2,9 @@ package kr.ac.uos.ai.annotator.activemq;
 
 import kr.ac.uos.ai.annotator.analyst.RequestAnalyst;
 
+import java.net.Inet4Address;
+import java.net.UnknownHostException;
+
 public class ActiveMQManager {
 
 	private String queueName;
@@ -21,8 +24,12 @@ public class ActiveMQManager {
 		requestAnalyst.init();
 		requestAnalyst.setSender(sender, nsdr);
 
-		subscriber = new Subscriber("basicTopicName", serverIP, System.getProperty("user.name"));
-        subscriber.setRequestAnalyst(requestAnalyst);
+		try {
+			subscriber = new Subscriber("basicTopicName", serverIP, System.getProperty(Inet4Address.getLocalHost().getHostAddress().toString()));
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		}
+		subscriber.setRequestAnalyst(requestAnalyst);
 		subscriber.init();
 		Thread subscribeThread = new Thread(subscriber);
 		subscribeThread.start();

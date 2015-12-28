@@ -5,6 +5,9 @@ import kr.ac.uos.ai.annotator.activemq.Sender;
 import kr.ac.uos.ai.annotator.taskarchiver.TaskPacker;
 import kr.ac.uos.ai.annotator.taskdistributor.TaskDistributor;
 
+import java.net.Inet4Address;
+import java.net.UnknownHostException;
+
 /**
  * Hello, Node!
  */
@@ -25,7 +28,7 @@ public class Application {
     }
 
     private void init() {
-        this.serverIP = "localhost";
+        this.serverIP = "211.109.9.71";
         annoIsRun = false;
         activemqManager = new ActiveMQManager();
         activemqManager.setServerIP(serverIP);
@@ -42,6 +45,7 @@ public class Application {
 
         activemqManager.setSender(sdr, nsdr);
         activemqManager.init("main2node");          // This init method makes receiver and starts receiver
+        System.out.println("Node_Manager initializing OK");
 
     }
 

@@ -92,10 +92,11 @@ public class RequestHandler {
     public void makeFile(byte[] bytes, BytesMessage tMsg) {
         try {
             String path;
+            System.out.println(("This is user.dir " + System.getProperty("user.dir")));
             if (tMsg.getObjectProperty("type").equals("jar")) {
-                path = System.getProperty("user.dir") + "\\annotator\\";
+                path = System.getProperty("user.dir") + "/annotator/";
             } else {
-                path = System.getProperty("user.dir") + "\\inputFile\\";
+                path = System.getProperty("user.dir") + "/inputFile/";
             }
             String fullPath = path + tMsg.getObjectProperty("fileName");
             taskUnpacker.makeFileFromByteArray(path, fullPath, bytes);
@@ -144,6 +145,7 @@ public class RequestHandler {
             ProcessForker processForker = new ProcessForker();
             Thread tempThread = new Thread(processForker);
             processForker.setJarFileName(protocol.getJob().getAnnoName());
+            System.out.println(protocol.getJob().getAnnoName());
             tempThread.start();
         }
     }
