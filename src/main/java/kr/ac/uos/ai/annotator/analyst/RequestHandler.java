@@ -146,6 +146,7 @@ public class RequestHandler {
             Thread tempThread = new Thread(processForker);
             processForker.setJarFileName(protocol.getJob().getAnnoName());
             System.out.println(protocol.getJob().getAnnoName());
+            sdr.sendMessage("anno", "completed");
             tempThread.start();
         }
     }
