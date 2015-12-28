@@ -3,9 +3,12 @@ package kr.ac.uos.ai.annotator.activemq;
 import org.apache.activemq.ActiveMQConnectionFactory;
 
 import javax.jms.*;
+import java.net.*;
+import java.util.Enumeration;
 
 public class Sender {
-	private ActiveMQConnectionFactory factory;
+    private String hostAddr;
+    private ActiveMQConnectionFactory factory;
 	private Connection connection;
 	private Session session;
 	private Queue queue;
@@ -13,8 +16,26 @@ public class Sender {
 	private String serverIP;
 
 	public Sender() {
-	
-	}
+        hostAddr = "";
+        try {
+            Enumeration<NetworkInterface> nienum = NetworkInterface.getNetworkInterfaces();
+            while (nienum.hasMoreElements()) {
+                NetworkInterface ni = nienum.nextElement();
+                Enumeration<InetAddress> kk= ni.getInetAddresses();
+                while (kk.hasMoreElements()) {
+                    InetAddress inetAddress = kk.nextElement();
+                    if (!inetAddress.isLoopbackAddress() &&
+                            !inetAddress.isLinkLocalAddress() &&
+                            inetAddress.isSiteLocalAddress()) {
+                        hostAddr = inetAddress.getHostAddress().toString();
+                    }
+                }
+            }
+        } catch (SocketException e) {
+            e.printStackTrace();
+        }
+    }
+
 
 	public void createQueue(String queueName) {
 		try {
@@ -64,11 +85,12 @@ public class Sender {
             message = session.createTextMessage();
 			message.setObjectProperty("msgType", simpleMsgType);
 			message.setObjectProperty("text", process);
+            message.setObjectProperty("ip", hostAddr);
 			producer.send(message);
 		} catch (JMSException e) {
 			e.printStackTrace();
 		}
-	}
+    }
 
 	public void setServerIP(String serverIP) {
 		this.serverIP = serverIP;

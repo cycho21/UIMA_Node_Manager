@@ -4,8 +4,8 @@ import kr.ac.uos.ai.annotator.analyst.RequestAnalyst;
 import org.apache.activemq.ActiveMQConnectionFactory;
 
 import javax.jms.*;
-import java.net.Inet4Address;
-import java.net.UnknownHostException;
+import java.net.*;
+import java.util.Enumeration;
 
 /**
  * @author Chan Yeon, Cho
@@ -16,6 +16,7 @@ import java.net.UnknownHostException;
 
 public class Subscriber implements Runnable {
 
+    private String hostAddr;
     private String serverIP;
     private ActiveMQConnectionFactory connectionFactory;
     private Connection connection;
@@ -32,6 +33,24 @@ public class Subscriber implements Runnable {
         this.topicName = topicName;
         this.serverIP = serverIP;
         this.clientID = clientID;
+        this.hostAddr = "";
+        try {
+            Enumeration<NetworkInterface> nienum = NetworkInterface.getNetworkInterfaces();
+            while (nienum.hasMoreElements()) {
+                NetworkInterface ni = nienum.nextElement();
+                Enumeration<InetAddress> kk= ni.getInetAddresses();
+                while (kk.hasMoreElements()) {
+                    InetAddress inetAddress = kk.nextElement();
+                    if (!inetAddress.isLoopbackAddress() &&
+                            !inetAddress.isLinkLocalAddress() &&
+                            inetAddress.isSiteLocalAddress()) {
+                        hostAddr = inetAddress.getHostAddress().toString();
+                    }
+                }
+            }
+        } catch (SocketException e) {
+            e.printStackTrace();
+        }
     }
 
     public void consume() {
@@ -57,10 +76,10 @@ public class Subscriber implements Runnable {
             connection.start();
             session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
             topic = session.createTopic(topicName);
-            subscriber = session.createDurableSubscriber(topic, System.getProperty(Inet4Address.getLocalHost().getHostAddress().toString()));
+
+//            subscriber = session.createDurableSubscriber(topic, System.getProperty(Inet4Address.getLocalHost().getHostAddress().toString()));
+            subscriber = session.createDurableSubscriber(topic, hostAddr);
         } catch (JMSException e) {
-            e.printStackTrace();
-        } catch (UnknownHostException e) {
             e.printStackTrace();
         }
     }
