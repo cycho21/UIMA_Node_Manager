@@ -3,5 +3,6 @@
   <component name="Encoding" useUTFGuessing="true" native2AsciiForPropertiesFiles="false">
     <file url="file://$PROJECT_DIR$" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java/kr/ac/uos/ai/annotator/bean/protocol/Protocol.java" charset="x-windows-949" />
+    <file url="file://$PROJECT_DIR$/src/main/java/kr/ac/uos/ai/annotator/monitor/AnnotatorRunningInfo.java" charset="x-windows-949" />
   </component>
 </project>

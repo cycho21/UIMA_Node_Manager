@@ -2,7 +2,6 @@ package kr.ac.uos.ai.annotator.analyst;
 
 import kr.ac.uos.ai.annotator.bean.Task;
 import kr.ac.uos.ai.annotator.bean.protocol.MsgType;
-
 import javax.jms.JMSException;
 import javax.jms.Message;
 
@@ -12,6 +11,7 @@ import javax.jms.Message;
  *          on 2015-12-20
  * @link http://github.com/lovebube
  */
+
 public class TaskGenerator {
 
     public TaskGenerator() {

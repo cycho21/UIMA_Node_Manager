@@ -76,8 +76,6 @@ public class Subscriber implements Runnable {
             connection.start();
             session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
             topic = session.createTopic(topicName);
-
-//            subscriber = session.createDurableSubscriber(topic, System.getProperty(Inet4Address.getLocalHost().getHostAddress().toString()));
             subscriber = session.createDurableSubscriber(topic, hostAddr);
         } catch (JMSException e) {
             e.printStackTrace();

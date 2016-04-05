@@ -24,6 +24,7 @@ public class AnnotatorDynamicLoader {
         String tempPath = jarName;
         String path = System.getProperty("user.dir") + "\\lib\\" + tempPath;
         File file = new File(path);
+
         try {
             URL url = file.toURL();
             URL[] urls = new URL[]{url};
@@ -51,4 +52,5 @@ public class AnnotatorDynamicLoader {
             e.printStackTrace();
         }
     }
+
 }

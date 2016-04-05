@@ -18,8 +18,7 @@ public class ResourceMonitor {
     private static CPU cpu;
     public static Sigar sigar;
 
-    public ResourceMonitor() {
-        System.out.println("Resource Monitor loaded");
+    public ResourceMonitor(){
     }
 
     public void init() {
@@ -35,6 +34,35 @@ public class ResourceMonitor {
         if (sigar == null) {
             sigar = new Sigar();
         }
+
+        try {
+            Mem mem = sigar.getMem();
+            System.out.println((mem.getTotal()/1024)/1024 + "MB");
+        } catch (SigarException e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
+    public String getMem() {
+        Mem mem = null;
+        try {
+            mem = sigar.getMem();
+        } catch (SigarException e) {
+            e.printStackTrace();
+        }
+        return String.valueOf(mem.getTotal()/1024);
+    }
+
+    public CpuInfo[] getCPU() {
+        CpuInfo[] cpuInfoList = null;
+        try {
+            cpuInfoList = sigar.getCpuInfoList();
+        } catch (SigarException e) {
+            e.printStackTrace();
+        }
+        return cpuInfoList;
     }
 
     @Test
@@ -42,7 +70,7 @@ public class ResourceMonitor {
         init();
         try {
             Mem mem = sigar.getMem();
-            System.out.println(mem.getActualFree());
+            System.out.println((mem.getTotal()/1024)/1024 + "MB");
         } catch (SigarException e) {
             e.printStackTrace();
         }
@@ -58,26 +86,26 @@ public class ResourceMonitor {
          * Really the constructor should be empty and we should be doing this in a
          * method.
          */
-// declare the Sigar class (we need this because it gathers the
-// statistics)
+    // declare the Sigar class (we need this because it gathers the
+    // statistics)
             Sigar sigar = new Sigar();
 
-// the output string is just going to hold our output string
+    // the output string is just going to hold our output string
             String output = "";
 
-// an array of CPU Info classes. The CPUInfo class is a blank data
-// holder class. Just like string it can hold any data.
+    // an array of CPU Info classes. The CPUInfo class is a blank data
+    // holder class. Just like string it can hold any data.
             CpuInfo[] cpuInfoList = null;
-// the try catch block means that if we get an error we are notified
+    // the try catch block means that if we get an error we are notified
             try {
-// get the CPU information from the sigar library
+    // get the CPU information from the sigar library
                 cpuInfoList = sigar.getCpuInfoList();
-                System.out.println("This is length : " + cpuInfoList.length);
-// if something foes wrong
+                System.out.println("CPU : " + cpuInfoList.length + " Core");
+    // if something foes wrong
             } catch (SigarException e) {
-// write a description of the problem to the output
+    // write a description of the problem to the output
                 e.printStackTrace();
-// exit the constructor
+    // exit the constructor
                 return;
             }
 

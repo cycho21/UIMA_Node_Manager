@@ -2,6 +2,7 @@ package kr.ac.uos.ai.annotator.analyst;
 
 import kr.ac.uos.ai.annotator.activemq.Sender;
 import kr.ac.uos.ai.annotator.bean.protocol.MsgType;
+import kr.ac.uos.ai.annotator.monitor.AnnotatorRunningInfo;
 
 import javax.jms.JMSException;
 import javax.jms.Message;
@@ -17,7 +18,6 @@ public class RequestAnalyst {
     private TaskGenerator taskGenerator;
     private RequestHandler requestHandler;
     private Sender sdr;
-    private Sender nsdr;
 
     /**
      * This constructor has no function.
@@ -35,15 +35,20 @@ public class RequestAnalyst {
         if(requestHandler == null) {
             this.requestHandler = new RequestHandler();
             requestHandler.init();
+            requestHandler.annoFirstRun("TestAnnotaor.jar");
+            requestHandler.annoFirstRun("TestL2K.jar");
+
+            AnnotatorRunningInfo.getAnnotatorList().add("TestAnnotator.jar");
+            AnnotatorRunningInfo.getAnnotatorList().add("TestL2K.jar");
+
         } else {
             /* doNothing */
         }
     }
 
-    public void setSender(Sender sdr, Sender nsdr) {
+    public void setSender(Sender sdr) {
         this.sdr = sdr;
-        this.nsdr = nsdr;
-        requestHandler.setSdr(sdr, nsdr);
+        requestHandler.setSdr(sdr);
     }
 
     /**
@@ -63,8 +68,8 @@ public class RequestAnalyst {
             case ANNORUN:
                 requestHandler.annoRun(message);
                 break;
-            case REQUESTJOB:
-                requestHandler.requestJob(message);
+            case GETANNOLIST:
+                requestHandler.getAnnoList();
                 break;
             case GETJOBLIST:
                 requestHandler.getJobList();
@@ -74,10 +79,6 @@ public class RequestAnalyst {
                 break;
             case UPLOAD:
                 requestHandler.upLoad(message);
-                break;
-            case TEST:
-                System.out.println(111);
-                requestHandler.test();
                 break;
             default:
                 /* doNothing */

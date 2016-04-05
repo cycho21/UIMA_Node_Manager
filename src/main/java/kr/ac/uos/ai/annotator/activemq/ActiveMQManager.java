@@ -13,7 +13,7 @@ public class ActiveMQManager {
 	private String serverIP;
 	private Sender sender;
 	private Subscriber subscriber;
-    private Sender nsdr;
+    private Sender sdr;
 
     public ActiveMQManager() {
 	}
@@ -22,13 +22,14 @@ public class ActiveMQManager {
 		this.queueName = queueName;
 		requestAnalyst = new RequestAnalyst();
 		requestAnalyst.init();
-		requestAnalyst.setSender(sender, nsdr);
+		requestAnalyst.setSender(sdr);
 
 		try {
 			subscriber = new Subscriber("basicTopicName", serverIP, System.getProperty(Inet4Address.getLocalHost().getHostAddress().toString()));
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		}
+
 		subscriber.setRequestAnalyst(requestAnalyst);
 		subscriber.init();
 		Thread subscribeThread = new Thread(subscriber);
@@ -40,6 +41,7 @@ public class ActiveMQManager {
 		receiver.setRequestAnalyst(requestAnalyst);
 		receiver.setSender(sender);
 		receiver.init();
+
 		Thread receiverThread = new Thread(receiver);
 		receiverThread.start();
 	}
@@ -60,9 +62,8 @@ public class ActiveMQManager {
 		this.receiver = receiver;
 	}
 
-	public void setSender(Sender sender, Sender nsdr) {
-		this.sender = sender;
-        this.nsdr = nsdr;
+	public void setSender(Sender sdr) {
+        this.sdr = sdr;
 	}
 
 	public void setServerIP(String serverIP) {

@@ -36,7 +36,6 @@ public class Sender {
         }
     }
 
-
 	public void createQueue(String queueName) {
 		try {
 			queue = session.createQueue(queueName);

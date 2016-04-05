@@ -7,6 +7,7 @@ import kr.ac.uos.ai.annotator.bean.protocol.Protocol;
 import kr.ac.uos.ai.annotator.classloader.AnnotatorDynamicLoader;
 import kr.ac.uos.ai.annotator.classloader.JobTracker;
 import kr.ac.uos.ai.annotator.forker.ProcessForker;
+import kr.ac.uos.ai.annotator.monitor.AnnotatorRunningInfo;
 import kr.ac.uos.ai.annotator.monitor.JobList;
 import kr.ac.uos.ai.annotator.taskarchiver.TaskUnpacker;
 
@@ -28,9 +29,9 @@ public class RequestHandler {
     private TaskUnpacker taskUnpacker;
     private Sender sdr;
     private JobTracker jobTracker;
-    private Sender nsdr;
     private ProcessForker processForker;
     private Boolean annoIsRun;
+    private AnnotatorRunningInfo annotatorList;
 
     public RequestHandler() {
         jobList = JobList.getInstance();
@@ -41,6 +42,7 @@ public class RequestHandler {
         taskUnpacker = new TaskUnpacker();
         jobTracker = new JobTracker();
         processForker = new ProcessForker();
+        annotatorList = AnnotatorRunningInfo.getInstance();
         this.annoIsRun = false;
     }
 
@@ -63,19 +65,6 @@ public class RequestHandler {
             e.printStackTrace();
         }
         return protocol;
-    }
-
-    public void requestJob(Message message) {
-//        Protocol protocol = makeProtocol(message);
-//        if(annoIsRun){
-//            System.out.println("Annotator already running...");
-//        } else {
-//            System.out.println("Annotator Running...");
-//            ProcessForker processForker = new ProcessForker();
-//            Thread tempThread = new Thread(processForker);
-//            processForker.setJarFileName(protocol.getJob().getAnnoName());
-//            tempThread.start();
-//        }
     }
 
     public void upLoad(Message message) {
@@ -126,14 +115,8 @@ public class RequestHandler {
         }
     }
 
-    public void setSdr(Sender sdr, Sender nsdr) {
+    public void setSdr(Sender sdr) {
         this.sdr = sdr;
-        this.nsdr = nsdr;
-    }
-
-    public void test() {
-        sdr.sendMessage("uploadSeq", "completed");
-        annotatorDynamicLoader.loadClass("Test.jar", "kr.ac.uos.ai.Test", "Test1");
     }
 
     public void annoRun(Message message) {
@@ -148,6 +131,21 @@ public class RequestHandler {
             System.out.println(protocol.getJob().getAnnoName());
             sdr.sendMessage("anno", "completed");
             tempThread.start();
+        }
+    }
+
+    public void annoFirstRun(String annoName) {
+        System.out.println("Annotator is starting...");
+        ProcessForker processForker = new ProcessForker();
+        Thread tempThread = new Thread(processForker);
+        processForker.setJarFileName(annoName);
+        sdr.sendMessage("anno", annoName);
+        tempThread.start();
+    }
+
+    public void getAnnoList() {
+        for(int i =0; i < AnnotatorRunningInfo.getAnnotatorList().size(); i++) {
+                sdr.sendMessage("getAnnoList", AnnotatorRunningInfo.getAnnotatorList().get(i));
         }
     }
 }
