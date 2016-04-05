@@ -139,7 +139,6 @@ public class RequestHandler {
         ProcessForker processForker = new ProcessForker();
         Thread tempThread = new Thread(processForker);
         processForker.setJarFileName(annoName);
-        sdr.sendMessage("anno", annoName);
         tempThread.start();
     }
 

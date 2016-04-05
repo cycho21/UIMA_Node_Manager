@@ -42,6 +42,7 @@ public class ProcessForker implements Runnable {
                 "/annotator/" + jarFileName;
         CommandLine cmdLine = CommandLine.parse(line);
         DefaultExecutor executor = new DefaultExecutor();
+        System.out.println(line);
         try {
             int exitValue = executor.execute(cmdLine);
             watcher = executor.getWatchdog();

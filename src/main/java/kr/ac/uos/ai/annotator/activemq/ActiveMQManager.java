@@ -37,7 +37,7 @@ public class ActiveMQManager {
 
 		receiver = new Receiver();
 		receiver.setServerIP(serverIP);
-		receiver.setQueueName(queueName);
+		receiver.setQueueName("node");
 		receiver.setRequestAnalyst(requestAnalyst);
 		receiver.setSender(sender);
 		receiver.init();
