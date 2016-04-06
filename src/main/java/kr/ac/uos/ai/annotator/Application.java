@@ -32,11 +32,11 @@ public class Application {
         sdr = new Sender();
         sdr.setServerIP(serverIP);
         sdr.init();
-        sdr.createQueue("node2main");
+        sdr.createQueue("main");
         sdr.sendMessage("connected", getIP());
 
         activemqManager.setSender(sdr);
-        activemqManager.init("main2node");          // This init method makes receiver and starts receiver
+        activemqManager.init("node");          // This init method makes receiver and starts receiver
 
         System.out.println("Node_Manager initializing OK");
     }
