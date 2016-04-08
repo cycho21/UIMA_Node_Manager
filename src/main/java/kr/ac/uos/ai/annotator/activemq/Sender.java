@@ -91,6 +91,18 @@ public class Sender {
 		}
     }
 
+	public void sendAnnoInfo(String annotatorName) {
+		TextMessage message;
+		try {
+			message = session.createTextMessage();
+			message.setObjectProperty("msgType", "annoInfo");
+			message.setObjectProperty("annotatorName", annotatorName);
+			message.setObjectProperty("ip", hostAddr);
+		} catch (JMSException e) {
+			e.printStackTrace();
+		}
+	}
+
 	public void setServerIP(String serverIP) {
 		this.serverIP = serverIP;
 	}

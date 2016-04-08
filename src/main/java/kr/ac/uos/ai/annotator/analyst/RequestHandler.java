@@ -140,6 +140,7 @@ public class RequestHandler {
         Thread tempThread = new Thread(processForker);
         processForker.setJarFileName(annoName);
         tempThread.start();
+        sdr.sendAnnoInfo(annoName);
     }
 
     public void getAnnoList() {
