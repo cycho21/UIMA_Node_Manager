@@ -98,21 +98,6 @@ public class TaskPacker {
 		return data;
 	}
 
-//	public void byte2File(String outputFilePath) {
-//		byte[] byteAraay = data;
-//		TaskUnpacker fm = new TaskUnpacker();
-//		fm.init();
-//		fm.makeFileFromByteArray(outputFilePath, byteAraay);
-//	}
-
-//	@Test
-//	public void test3() {
-//		byte[] byteArray = data;
-//		TaskUnpacker fM = new TaskUnpacker();
-//		fM.init();
-//		fM.makeFileFromByteArray("F:/jartest/ClientTest/asdf.jar", byteArray);
-//	}
-
 	@Before
 	public void test2() {
 		Path path = Paths.get("F:/jartest/newJar2.jar");

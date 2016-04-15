@@ -2,6 +2,7 @@ package kr.ac.uos.ai.annotator;
 
 import kr.ac.uos.ai.annotator.activemq.ActiveMQManager;
 import kr.ac.uos.ai.annotator.activemq.Sender;
+import kr.ac.uos.ai.annotator.monitor.ResourceMonitor;
 
 import java.net.InetAddress;
 import java.net.NetworkInterface;
@@ -19,8 +20,11 @@ public class Application {
     private String serverIP;
 
     public Application() {
-        init();
-        startApp();
+        ResourceMonitor resourceMonitor = new ResourceMonitor();
+        resourceMonitor.init();
+        resourceMonitor.test2();
+//        init();
+//        startApp();
     }
 
     private void init() {

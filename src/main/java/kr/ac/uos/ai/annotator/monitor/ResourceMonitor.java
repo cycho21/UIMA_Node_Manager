@@ -26,15 +26,12 @@ public class ResourceMonitor {
         if (memory == null) {
             memory = new Memory();
         }
-
         if (cpu == null) {
             cpu = new CPU();
         }
-
         if (sigar == null) {
             sigar = new Sigar();
         }
-
         try {
             Mem mem = sigar.getMem();
             System.out.println((mem.getTotal()/1024)/1024 + "MB");
@@ -43,6 +40,18 @@ public class ResourceMonitor {
         }
 
 
+    }
+
+    public Specification getSpec() {
+        Specification spec = new Specification();
+        try {
+            spec.setCpuClock(sigar.getMem().toString());
+            spec.setCpuCore(String.valueOf(sigar.getCpuInfoList().length));
+            spec.setMemory(String.valueOf(sigar.getMem().getTotal()));
+        } catch (SigarException e) {
+            e.printStackTrace();
+        }
+        return spec;
     }
 
     public String getMem() {
@@ -78,47 +87,26 @@ public class ResourceMonitor {
 
     @Test
     public void test2() {
-        /**
-         * declare a constructor for CPUINFO
-         *
-         * Remember that a constructor normally is meant to set the class up...in
-         * this case we are bending the rules just to make the example clearer.
-         * Really the constructor should be empty and we should be doing this in a
-         * method.
-         */
-    // declare the Sigar class (we need this because it gathers the
-    // statistics)
             Sigar sigar = new Sigar();
 
-    // the output string is just going to hold our output string
             String output = "";
 
-    // an array of CPU Info classes. The CPUInfo class is a blank data
-    // holder class. Just like string it can hold any data.
             CpuInfo[] cpuInfoList = null;
-    // the try catch block means that if we get an error we are notified
+
             try {
-    // get the CPU information from the sigar library
                 cpuInfoList = sigar.getCpuInfoList();
                 System.out.println("CPU : " + cpuInfoList.length + " Core");
-    // if something foes wrong
             } catch (SigarException e) {
-    // write a description of the problem to the output
                 e.printStackTrace();
-    // exit the constructor
                 return;
             }
 
-// for each item in the cpu info array
             for (CpuInfo info : cpuInfoList) {
-// add the data to the output ( output += "something" means add
-// "something" to the end of output)
                 output += "\nCPU\n";
                 output += "Vendor: " + info.getVendor() + "\n";
                 output += "Clock: " + info.getMhz() + "Mhz\n";
             }
 
-// finally, print the data to the output
             System.out.println(output);
         }
 }
