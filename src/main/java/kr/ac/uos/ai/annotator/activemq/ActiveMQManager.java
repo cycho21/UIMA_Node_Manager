@@ -20,6 +20,7 @@ public class ActiveMQManager {
 
 	public void init(String queueName) {
 		this.queueName = queueName;
+        serverIP = "211.109.9.71";
 		requestAnalyst = new RequestAnalyst();
 		requestAnalyst.init();
 		requestAnalyst.setSender(sdr);

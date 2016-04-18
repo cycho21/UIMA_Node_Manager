@@ -56,6 +56,7 @@ public class Subscriber implements Runnable {
     public void consume() {
         try {
             message = subscriber.receive();
+            System.out.println(message);
         } catch (JMSException e) {
             e.printStackTrace();
         }

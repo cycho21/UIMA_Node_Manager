@@ -35,8 +35,8 @@ public class RequestAnalyst {
         if(requestHandler == null) {
             this.requestHandler = new RequestHandler();
             requestHandler.init();
-            requestHandler.annoFirstRun("TestAnnotator.jar");
-            requestHandler.annoFirstRun("TestL2K.jar");
+//            requestHandler.annoFirstRun("TestAnnotator.jar");
+//            requestHandler.annoFirstRun("TestL2K.jar");
 
             AnnotatorRunningInfo.getAnnotatorList().add("TestAnnotator.jar");
             AnnotatorRunningInfo.getAnnotatorList().add("TestL2K.jar");
