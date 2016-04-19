@@ -83,9 +83,11 @@ public class RequestHandler {
             String path;
             System.out.println(("This is user.dir " + System.getProperty("user.dir")));
             if (tMsg.getObjectProperty("type").equals("jar")) {
-                path = System.getProperty("user.dir") + "/annotator/";
+//                path = System.getProperty("user.dir") + "/annotator/";
+                path = System.getProperty("user.dir") + "\\annotator\\";
             } else {
-                path = System.getProperty("user.dir") + "/inputFile/";
+//                path = System.getProperty("user.dir") + "/inputFile/";
+                path = System.getProperty("user.dir") + "\\inputFile\\";
             }
             String fullPath = path + tMsg.getObjectProperty("fileName");
             taskUnpacker.makeFileFromByteArray(path, fullPath, bytes);

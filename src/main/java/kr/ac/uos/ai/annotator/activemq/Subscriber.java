@@ -65,6 +65,7 @@ public class Subscriber implements Runnable {
     public void run() {
         while(true){
             consume();
+            System.out.println(message);
             requestAnalyst.analysis(message);
         }
     }
