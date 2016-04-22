@@ -22,7 +22,7 @@ public class AnnotatorDynamicLoader {
 
     public void loadClass(String jarName, String classPath, String methodName) {
         String tempPath = jarName;
-        String path = System.getProperty("user.dir") + "\\lib\\" + tempPath;
+        String path = System.getProperty("user.dir") + "/lib/" + tempPath;
         File file = new File(path);
 
         try {

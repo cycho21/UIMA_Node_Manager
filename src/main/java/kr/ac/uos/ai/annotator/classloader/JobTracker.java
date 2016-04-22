@@ -17,7 +17,7 @@ public class JobTracker {
     }
 
     public File[] getFiles() {
-        path = System.getProperty("user.dir") + "\\inputFile\\";
+        path = System.getProperty("user.dir") + "/inputFile/";
         dirFile = new File(path);
         fileList = dirFile.listFiles();
         return fileList;

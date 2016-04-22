@@ -35,11 +35,7 @@ public class RequestAnalyst {
         if(requestHandler == null) {
             this.requestHandler = new RequestHandler();
             requestHandler.init();
-//            requestHandler.annoFirstRun("TestAnnotator.jar");
-//            requestHandler.annoFirstRun("TestL2K.jar");
 
-            AnnotatorRunningInfo.getAnnotatorList().add("TestAnnotator.jar");
-            AnnotatorRunningInfo.getAnnotatorList().add("TestL2K.jar");
 
         } else {
             /* doNothing */
@@ -66,7 +62,12 @@ public class RequestAnalyst {
 
         switch (MsgType.valueOf(msgType)) {
             case ANNORUN:
-                requestHandler.annoRun(message);
+//                requestHandler.annoRun(message);
+                try {
+                    requestHandler.annoFirstRun(message.getObjectProperty("msgTxt").toString());
+                } catch (JMSException e) {
+                    e.printStackTrace();
+                }
                 break;
             case GETANNOLIST:
                 requestHandler.getAnnoList();
