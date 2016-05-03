@@ -68,18 +68,23 @@ public class RequestAnalyst {
                     e.printStackTrace();
                 }
                 break;
+
             case GETANNOLIST:
                 requestHandler.getAnnoList();
                 break;
+
             case GETJOBLIST:
                 requestHandler.getJobList();
                 break;
+
             case UPLOADSEQ:
                 requestHandler.uploadSeq(message);
                 break;
+
             case UPLOAD:
                 requestHandler.upLoad(message);
                 break;
+
             default:
                 /* doNothing */
                 break;

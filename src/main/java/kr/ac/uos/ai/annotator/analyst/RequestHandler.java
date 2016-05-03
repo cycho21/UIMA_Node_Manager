@@ -68,13 +68,18 @@ public class RequestHandler {
     }
 
     public void upLoad(Message message) {
+
         try {
+
             BytesMessage tMsg = (BytesMessage) message;
             byte[] bytes = new byte[(int) tMsg.getBodyLength()];
             tMsg.readBytes(bytes);
             makeFile(bytes, tMsg);
+
         } catch (JMSException e) {
+
             e.printStackTrace();
+
         }
     }
 
@@ -91,6 +96,21 @@ public class RequestHandler {
             }
             String fullPath = path + tMsg.getObjectProperty("fileName");
             taskUnpacker.makeFileFromByteArray(path, fullPath, bytes);
+
+            switch (tMsg.getObjectProperty("type").toString()){
+
+                case "update" :
+
+                    break;
+
+                case "enroll" :
+
+                    break;
+
+                default:
+                    break;
+            }
+
             annoFirstRun(tMsg.getObjectProperty("fileName").toString());
             sdr.sendMessage("uploadSeq", "completed");
         } catch (JMSException e) {
