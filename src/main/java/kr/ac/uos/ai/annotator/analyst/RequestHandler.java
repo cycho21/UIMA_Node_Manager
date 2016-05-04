@@ -42,7 +42,7 @@ public class RequestHandler {
         taskUnpacker = new TaskUnpacker();
         jobTracker = new JobTracker();
         processForker = new ProcessForker();
-        annotatorList = AnnotatorRunningInfo.getInstance();
+        annotatorList = new AnnotatorRunningInfo();
         this.annoIsRun = false;
     }
 
@@ -97,7 +97,7 @@ public class RequestHandler {
             String fullPath = path + tMsg.getObjectProperty("fileName");
             taskUnpacker.makeFileFromByteArray(path, fullPath, bytes);
 
-            switch (tMsg.getObjectProperty("type").toString()){
+            switch (tMsg.getObjectProperty("updateType").toString()){
 
                 case "update" :
                     annoKill(tMsg.getObjectProperty("fileName").toString());
@@ -113,6 +113,7 @@ public class RequestHandler {
             }
 
             sdr.sendMessage("uploadSeq", "completed");
+
         } catch (JMSException e) {
             e.printStackTrace();
         }
@@ -120,6 +121,7 @@ public class RequestHandler {
 
     private void annoKill(String annoName) {
         AnnotatorRunningInfo.getAnnotatorList().get(annoName).destroyProcess();
+        System.out.println(annoName + " killed...");
     }
 
     public HashMap getJobList() {
@@ -168,14 +170,9 @@ public class RequestHandler {
         processForker.setJarFileName(annoName);
         tempThread.start();
 
-        AnnotatorRunningInfo.getAnnotatorList().put(annoName, processForker.getWatcher());
+        AnnotatorRunningInfo.getAnnotatorList().put(annoName, processForker.getWatchdog());
 
         sdr.sendAnnoInfo(annoName);
     }
 
-    public void getAnnoList() {
-        for(int i =0; i < AnnotatorRunningInfo.getAnnotatorList().size(); i++) {
-                sdr.sendMessage("getAnnoList", AnnotatorRunningInfo.getAnnotatorList().get(i));
-        }
-    }
 }

@@ -63,6 +63,7 @@ public class RequestAnalyst {
         switch (MsgType.valueOf(msgType)) {
 
             case ANNORUN:
+
                 try {
                     requestHandler.annoFirstRun(message.getObjectProperty("msgTxt").toString());
                 } catch (JMSException e) {
@@ -71,7 +72,6 @@ public class RequestAnalyst {
                 break;
 
             case GETANNOLIST:
-                requestHandler.getAnnoList();
                 break;
 
             case GETJOBLIST:

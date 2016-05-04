@@ -1,6 +1,7 @@
 package kr.ac.uos.ai.annotator.forker;
 
 import org.apache.commons.exec.CommandLine;
+import org.apache.commons.exec.DefaultExecuteResultHandler;
 import org.apache.commons.exec.DefaultExecutor;
 import org.apache.commons.exec.ExecuteWatchdog;
 
@@ -14,16 +15,9 @@ import java.io.IOException;
  */
 public class ProcessForker implements Runnable {
 
-    private ExecuteWatchdog watcher;
     private String jarFileName;
-
-    public ExecuteWatchdog getWatcher() {
-        return watcher;
-    }
-
-    public void setWatcher(ExecuteWatchdog watcher) {
-        this.watcher = watcher;
-    }
+    private DefaultExecutor executor;
+    private ExecuteWatchdog watchdog;
 
     public String getJarFileName() {
         return jarFileName;
@@ -36,24 +30,40 @@ public class ProcessForker implements Runnable {
     public ProcessForker() {
     }
 
-    public ExecuteWatchdog forkNewProc() {
+    public void forkNewProc() {
         String path = System.getProperty("user.dir");
-        String line = "java -jar " + path +
-                "/annotator/" + jarFileName;
+        String line = "java -jar " + path + "/annotator/" + jarFileName;
         CommandLine cmdLine = CommandLine.parse(line);
-        DefaultExecutor executor = new DefaultExecutor();
-        System.out.println(line);
+        executor = new DefaultExecutor();
+
         try {
-            int exitValue = executor.execute(cmdLine);
-            watcher = executor.getWatchdog();
-            } catch (IOException e) {
+
+            executor.execute(cmdLine);
+
+        } catch (IOException e) {
             e.printStackTrace();
         }
-        return watcher;
+
     }
 
     @Override
     public void run() {
         forkNewProc();
+    }
+
+    public DefaultExecutor getExecutor() {
+        return executor;
+    }
+
+    public void setExecutor(DefaultExecutor executor) {
+        this.executor = executor;
+    }
+
+    public ExecuteWatchdog getWatchdog() {
+        return watchdog;
+    }
+
+    public void setWatchdog(ExecuteWatchdog watchdog) {
+        this.watchdog = watchdog;
     }
 }
