@@ -100,22 +100,26 @@ public class RequestHandler {
             switch (tMsg.getObjectProperty("type").toString()){
 
                 case "update" :
-
+                    annoKill(tMsg.getObjectProperty("fileName").toString());
+                    annoFirstRun(tMsg.getObjectProperty("fileName").toString());
                     break;
 
                 case "enroll" :
-
+                    annoFirstRun(tMsg.getObjectProperty("fileName").toString());
                     break;
 
                 default:
                     break;
             }
 
-            annoFirstRun(tMsg.getObjectProperty("fileName").toString());
             sdr.sendMessage("uploadSeq", "completed");
         } catch (JMSException e) {
             e.printStackTrace();
         }
+    }
+
+    private void annoKill(String annoName) {
+        AnnotatorRunningInfo.getAnnotatorList().get(annoName).destroyProcess();
     }
 
     public HashMap getJobList() {
@@ -163,6 +167,9 @@ public class RequestHandler {
         Thread tempThread = new Thread(processForker);
         processForker.setJarFileName(annoName);
         tempThread.start();
+
+        AnnotatorRunningInfo.getAnnotatorList().put(annoName, processForker.getWatcher());
+
         sdr.sendAnnoInfo(annoName);
     }
 

@@ -46,7 +46,7 @@ public class ProcessForker implements Runnable {
         try {
             int exitValue = executor.execute(cmdLine);
             watcher = executor.getWatchdog();
-        } catch (IOException e) {
+            } catch (IOException e) {
             e.printStackTrace();
         }
         return watcher;

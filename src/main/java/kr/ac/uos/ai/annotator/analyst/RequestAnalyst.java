@@ -61,6 +61,7 @@ public class RequestAnalyst {
         }
 
         switch (MsgType.valueOf(msgType)) {
+
             case ANNORUN:
                 try {
                     requestHandler.annoFirstRun(message.getObjectProperty("msgTxt").toString());

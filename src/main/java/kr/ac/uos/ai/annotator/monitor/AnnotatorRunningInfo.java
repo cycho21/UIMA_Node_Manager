@@ -1,4 +1,6 @@
 package kr.ac.uos.ai.annotator.monitor;
+import org.apache.commons.exec.ExecuteWatchdog;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -11,16 +13,16 @@ import java.util.HashMap;
 
 public class AnnotatorRunningInfo {
     private static AnnotatorRunningInfo ourInstance = new AnnotatorRunningInfo();
-    private static ArrayList<String> annotatorList;
+    private static HashMap<String, ExecuteWatchdog> annotatorList;
 
     public AnnotatorRunningInfo() {
     }
 
-    public static ArrayList<String> getAnnotatorList() {
+    public static HashMap<String, ExecuteWatchdog> getAnnotatorList() {
         if(annotatorList!=null){
             /* doNothing; */
         } else {
-            annotatorList = new ArrayList<>();
+            annotatorList = new HashMap<>();
         }
         return annotatorList;
     }
