@@ -170,6 +170,13 @@ public class RequestHandler {
         processForker.setJarFileName(annoName);
         tempThread.start();
 
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        System.out.println(annoName + "    " + processForker.getWatchdog());
         AnnotatorRunningInfo.getAnnotatorList().put(annoName, processForker.getWatchdog());
 
         sdr.sendAnnoInfo(annoName);

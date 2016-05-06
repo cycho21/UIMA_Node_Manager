@@ -1,7 +1,6 @@
 package kr.ac.uos.ai.annotator.forker;
 
 import org.apache.commons.exec.CommandLine;
-import org.apache.commons.exec.DefaultExecuteResultHandler;
 import org.apache.commons.exec.DefaultExecutor;
 import org.apache.commons.exec.ExecuteWatchdog;
 
@@ -34,7 +33,11 @@ public class ProcessForker implements Runnable {
         String path = System.getProperty("user.dir");
         String line = "java -jar " + path + "/annotator/" + jarFileName;
         CommandLine cmdLine = CommandLine.parse(line);
+        watchdog = new ExecuteWatchdog(ExecuteWatchdog.INFINITE_TIMEOUT);
+        System.out.println("This is WatchDog!! " + watchdog);
+
         executor = new DefaultExecutor();
+        executor.setWatchdog(watchdog);
 
         try {
 
