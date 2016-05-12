@@ -14,6 +14,10 @@ import kr.ac.uos.ai.annotator.taskarchiver.TaskUnpacker;
 import javax.jms.BytesMessage;
 import javax.jms.JMSException;
 import javax.jms.Message;
+import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.net.SocketException;
+import java.util.Enumeration;
 import java.util.HashMap;
 
 /**
@@ -24,6 +28,7 @@ import java.util.HashMap;
  */
 public class RequestHandler {
 
+    private String hostAddr;
     private JobList jobList;
     private AnnotatorDynamicLoader annotatorDynamicLoader;
     private TaskUnpacker taskUnpacker;
@@ -36,6 +41,42 @@ public class RequestHandler {
     public RequestHandler() {
         jobList = JobList.getInstance();
         annotatorDynamicLoader = new AnnotatorDynamicLoader();
+
+
+        /*
+
+         */
+        Enumeration<NetworkInterface> nienum = null;
+        try {
+            nienum = NetworkInterface.getNetworkInterfaces();
+        } catch (SocketException e) {
+            e.printStackTrace();
+        }
+        while (nienum.hasMoreElements()) {
+
+            NetworkInterface ni = nienum.nextElement();
+            Enumeration<InetAddress> kk= ni.getInetAddresses();
+
+            while (kk.hasMoreElements()) {
+
+                InetAddress inetAddress = kk.nextElement();
+
+                if (!inetAddress.isLoopbackAddress() &&
+
+                        !inetAddress.isLinkLocalAddress() &&
+
+                        inetAddress.isSiteLocalAddress()) {
+
+                    hostAddr = inetAddress.getHostAddress().toString();
+
+                }
+            }
+        }
+
+        /*
+
+         */
+
     }
 
     public void init() {
@@ -72,9 +113,20 @@ public class RequestHandler {
         try {
 
             BytesMessage tMsg = (BytesMessage) message;
-            byte[] bytes = new byte[(int) tMsg.getBodyLength()];
-            tMsg.readBytes(bytes);
-            makeFile(bytes, tMsg);
+
+            if(tMsg.getObjectProperty("connectCallBack").equals("false")) {
+                byte[] bytes = new byte[(int) tMsg.getBodyLength()];
+                tMsg.readBytes(bytes);
+                makeFile(bytes, tMsg);
+            } else {
+                if(tMsg.getObjectProperty("connectCallBack").equals(hostAddr)){
+                    byte[] bytes = new byte[(int) tMsg.getBodyLength()];
+                    tMsg.readBytes(bytes);
+                    makeFile(bytes, tMsg);
+                } else {
+                    // doNothing;
+                }
+            }
 
         } catch (JMSException e) {
 
@@ -165,6 +217,7 @@ public class RequestHandler {
 
     public void annoFirstRun(String annoName) {
         System.out.println("Annotator is starting...");
+
         ProcessForker processForker = new ProcessForker();
         Thread tempThread = new Thread(processForker);
         processForker.setJarFileName(annoName);
