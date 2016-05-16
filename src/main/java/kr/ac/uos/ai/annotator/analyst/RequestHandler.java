@@ -55,6 +55,7 @@ public class RequestHandler {
         while (nienum.hasMoreElements()) {
 
             NetworkInterface ni = nienum.nextElement();
+
             Enumeration<InetAddress> kk= ni.getInetAddresses();
 
             while (kk.hasMoreElements()) {
@@ -115,9 +116,11 @@ public class RequestHandler {
             BytesMessage tMsg = (BytesMessage) message;
 
             if(tMsg.getObjectProperty("connectCallBack").equals("false")) {
+
                 byte[] bytes = new byte[(int) tMsg.getBodyLength()];
                 tMsg.readBytes(bytes);
                 makeFile(bytes, tMsg);
+
             } else {
                 if(tMsg.getObjectProperty("connectCallBack").equals(hostAddr)){
                     byte[] bytes = new byte[(int) tMsg.getBodyLength()];
