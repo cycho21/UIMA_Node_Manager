@@ -7,7 +7,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="06509c00-3a4d-4b82-8eb8-a5cf07a9badf" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/kr/ac/uos/ai/annotator/analyst/RequestHandler.java" afterPath="$PROJECT_DIR$/src/main/java/kr/ac/uos/ai/annotator/analyst/RequestHandler.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="annoNode.iws" />
@@ -35,8 +34,8 @@
       <file leaf-file-name="RequestHandler.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/kr/ac/uos/ai/annotator/analyst/RequestHandler.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="2.0076253">
-              <caret line="184" column="0" selection-start-line="184" selection-start-column="0" selection-end-line="184" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.37254903">
+              <caret line="105" column="34" selection-start-line="105" selection-start-column="34" selection-end-line="105" selection-end-column="34" />
               <folding />
             </state>
           </provider>
@@ -239,6 +238,25 @@
     <option name="y" value="-8" />
     <option name="width" value="1936" />
     <option name="height" value="1056" />
+  </component>
+  <component name="ProjectInspectionProfilesVisibleTreeState">
+    <entry key="Project Default">
+      <profile-state>
+        <expanded-state>
+          <State>
+            <id />
+          </State>
+          <State>
+            <id>Android Lint</id>
+          </State>
+        </expanded-state>
+        <selected-state>
+          <State>
+            <id>Android</id>
+          </State>
+        </selected-state>
+      </profile-state>
+    </entry>
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <OptionsSetting value="true" id="Add" />
@@ -603,7 +621,7 @@
     <property name="project.structure.last.edited" value="Artifacts" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.5827586" />
-    <property name="settings.editor.selected.configurable" value="reference.projectsettings.compiler.javacompiler" />
+    <property name="settings.editor.selected.configurable" value="Settings.JavaScript.Linters.JSLint" />
     <property name="settings.editor.splitter.proportion" value="0.30737704" />
     <property name="recentsLimit" value="5" />
     <property name="dynamic.classpath" value="false" />
@@ -1096,7 +1114,7 @@
       <workItem from="1461727760151" duration="3880000" />
       <workItem from="1462168829151" duration="10759000" />
       <workItem from="1462769611273" duration="420000" />
-      <workItem from="1462931007065" duration="9261000" />
+      <workItem from="1462931007065" duration="12596000" />
     </task>
     <task id="LOCAL-00001" summary="a">
       <created>1448433720616</created>
@@ -1272,11 +1290,17 @@
       <option name="project" value="LOCAL" />
       <updated>1463127853644</updated>
     </task>
-    <option name="localTasksCounter" value="30" />
+    <task id="LOCAL-00030" summary="05/16">
+      <created>1463378429882</created>
+      <option name="number" value="00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1463378429882</updated>
+    </task>
+    <option name="localTasksCounter" value="31" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="124807000" />
+    <option name="totallyTimeSpent" value="128142000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
@@ -1369,7 +1393,8 @@
     <MESSAGE value="05/04" />
     <MESSAGE value="05/12" />
     <MESSAGE value="05/13" />
-    <option name="LAST_COMMIT_MESSAGE" value="05/13" />
+    <MESSAGE value="05/16" />
+    <option name="LAST_COMMIT_MESSAGE" value="05/16" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1757,8 +1782,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/kr/ac/uos/ai/annotator/analyst/RequestHandler.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="2.0076253">
-          <caret line="184" column="0" selection-start-line="184" selection-start-column="0" selection-end-line="184" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.37254903">
+          <caret line="105" column="34" selection-start-line="105" selection-start-column="34" selection-end-line="105" selection-end-column="34" />
           <folding />
         </state>
       </provider>
