@@ -2,6 +2,8 @@ package kr.ac.uos.ai.annotator;
 
 import kr.ac.uos.ai.annotator.activemq.ActiveMQManager;
 import kr.ac.uos.ai.annotator.activemq.Sender;
+import kr.ac.uos.ai.annotator.monitor.ResourceMonitor;
+import kr.ac.uos.ai.annotator.monitor.Specification;
 
 import java.net.InetAddress;
 import java.net.NetworkInterface;
@@ -14,6 +16,7 @@ import java.util.Enumeration;
 
 public class Application {
 
+    private ResourceMonitor resourceMonitor;
     private ActiveMQManager activemqManager;
     private Sender sdr;
     private String serverIP;
@@ -25,9 +28,12 @@ public class Application {
 
     private void init() {
         this.serverIP = "211.109.9.71";
+
         getIP();
         activemqManager = new ActiveMQManager();
         activemqManager.setServerIP(serverIP);
+
+        resourceMonitor = new ResourceMonitor();
 
         sdr = new Sender();
         sdr.setServerIP(serverIP);
@@ -35,10 +41,27 @@ public class Application {
         sdr.createQueue("main");
         sdr.sendMessage("connected", getIP());
 
+        getSystemResource();
+
         activemqManager.setSender(sdr);
         activemqManager.init("node");          // This init method makes receiver and starts receiver
 
         System.out.println("Node_Manager initializing OK");
+    }
+
+    private void getSystemResource() {
+
+        resourceMonitor.init();
+        sendSystemResource(resourceMonitor.getSpec());
+
+    }
+
+    private void sendSystemResource(Specification spec) {
+
+        System.out.println(spec.getMemory());
+        System.out.println(spec.getFreeCPU());
+
+        sdr.sendResource(spec.getMemory(), spec.getFreeCPU());
     }
 
     private String getIP() {

@@ -98,6 +98,7 @@ public class Sender {
 			message.setObjectProperty("msgType", "annoInfo");
 			message.setObjectProperty("annotatorName", annotatorName);
 			message.setObjectProperty("ip", hostAddr);
+            producer.send(message);
 		} catch (JMSException e) {
 			e.printStackTrace();
 		}
@@ -105,5 +106,19 @@ public class Sender {
 
 	public void setServerIP(String serverIP) {
 		this.serverIP = serverIP;
+	}
+
+	public void sendResource(String memory, String freeCPU) {
+		TextMessage message;
+		try {
+			message = session.createTextMessage();
+			message.setObjectProperty("msgType", "resource");
+			message.setObjectProperty("ip", hostAddr);
+			message.setObjectProperty("freeMemory", memory);
+            message.setObjectProperty("freeCPU", freeCPU);
+            producer.send(message);
+		} catch (JMSException e) {
+			e.printStackTrace();
+		}
 	}
 }

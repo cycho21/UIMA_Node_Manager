@@ -40,9 +40,7 @@ public class ProcessForker implements Runnable {
         executor.setWatchdog(watchdog);
 
         try {
-
             executor.execute(cmdLine);
-
         } catch (IOException e) {
             e.printStackTrace();
         }

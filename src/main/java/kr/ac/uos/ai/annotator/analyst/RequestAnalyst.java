@@ -35,8 +35,6 @@ public class RequestAnalyst {
         if(requestHandler == null) {
             this.requestHandler = new RequestHandler();
             requestHandler.init();
-
-
         } else {
             /* doNothing */
         }

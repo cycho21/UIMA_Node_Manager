@@ -32,22 +32,17 @@ public class ResourceMonitor {
         if (sigar == null) {
             sigar = new Sigar();
         }
-        try {
-            Mem mem = sigar.getMem();
-            System.out.println((mem.getTotal()/1024)/1024 + "MB");
-        } catch (SigarException e) {
-            e.printStackTrace();
-        }
-
 
     }
 
     public Specification getSpec() {
         Specification spec = new Specification();
         try {
-            spec.setCpuClock(sigar.getMem().toString());
+
             spec.setCpuCore(String.valueOf(sigar.getCpuInfoList().length));
-            spec.setMemory(String.valueOf(sigar.getMem().getTotal()));
+            spec.setMemory(String.valueOf(sigar.getMem().getFreePercent()));
+            spec.setFreeCPU(String.valueOf(sigar.getCpuPerc().getIdle()*100));
+
         } catch (SigarException e) {
             e.printStackTrace();
         }
@@ -77,12 +72,12 @@ public class ResourceMonitor {
     @Test
     public void test() {
         init();
-        try {
-            Mem mem = sigar.getMem();
-            System.out.println((mem.getTotal()/1024)/1024 + "MB");
-        } catch (SigarException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            Mem mem = sigar.getMem();
+//            System.out.println((mem.getTotal()/1024)/1024 + "MB");
+//        } catch (SigarException e) {
+//            e.printStackTrace();
+//        }
     }
 
     @Test
@@ -109,4 +104,6 @@ public class ResourceMonitor {
 
             System.out.println(output);
         }
+
+
 }
