@@ -72,12 +72,6 @@ public class ResourceMonitor {
     @Test
     public void test() {
         init();
-//        try {
-//            Mem mem = sigar.getMem();
-//            System.out.println((mem.getTotal()/1024)/1024 + "MB");
-//        } catch (SigarException e) {
-//            e.printStackTrace();
-//        }
     }
 
     @Test
