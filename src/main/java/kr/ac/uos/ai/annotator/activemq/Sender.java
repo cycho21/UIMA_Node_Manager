@@ -114,8 +114,8 @@ public class Sender {
 			message = session.createTextMessage();
 			message.setObjectProperty("msgType", "resource");
 			message.setObjectProperty("ip", hostAddr);
-			message.setObjectProperty("freeMemory", memory);
-            message.setObjectProperty("freeCPU", freeCPU);
+			message.setObjectProperty("freeMemoryPerc", memory);
+            message.setObjectProperty("freeCPUPerc", freeCPU);
             producer.send(message);
 		} catch (JMSException e) {
 			e.printStackTrace();
