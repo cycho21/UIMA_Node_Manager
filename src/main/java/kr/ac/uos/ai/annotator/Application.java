@@ -53,6 +53,7 @@ public class Application {
 
         resourceMonitor.init();
         sendSystemResource(resourceMonitor.getSpec());
+        resourceMonitor.getCpuUsageByPID("");
 
     }
 

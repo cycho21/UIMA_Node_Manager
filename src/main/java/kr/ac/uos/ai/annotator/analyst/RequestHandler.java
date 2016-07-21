@@ -235,6 +235,7 @@ public class RequestHandler {
         System.out.println(annoName + "    " + processForker.getWatchdog());
         AnnotatorRunningInfo.getAnnotatorList().put(annoName, processForker.getWatchdog());
 
+
         sdr.sendAnnoInfo(annoName);
     }
 

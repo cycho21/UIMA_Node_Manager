@@ -1,9 +1,6 @@
 package kr.ac.uos.ai.annotator.monitor;
 
-import org.hyperic.sigar.CpuInfo;
-import org.hyperic.sigar.Mem;
-import org.hyperic.sigar.Sigar;
-import org.hyperic.sigar.SigarException;
+import org.hyperic.sigar.*;
 import org.junit.Test;
 
 /**
@@ -98,6 +95,19 @@ public class ResourceMonitor {
 
             System.out.println(output);
         }
+
+    public void getCpuUsageByPID(String pid){
+        while (true) {
+            ProcCpu cpu = null;
+            try {
+                cpu = sigar.getProcCpu(pid);
+            } catch (SigarException e) {
+                e.printStackTrace();
+            }
+            System.out.println(cpu.getPercent());
+        }
+    }
+
 
 
 }
